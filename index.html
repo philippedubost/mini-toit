@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<!-- Hero image preload — largest LCP element, load ASAP -->
+<link rel="preload" as="image" href="images/ComfyUI_temp_dcudn_00001_.webp" type="image/webp" fetchpriority="high">
 <style>
 /* ─── VARIABLES ─────────────────────────────────────────────── */
 :root {
@@ -563,7 +565,7 @@ nav.scrolled {
 }
 .emotion-bg {
   position: absolute; inset: 0;
-  background-image: url('images/ComfyUI_temp_rcsnb_00001_.png');
+  background-image: url('images/ComfyUI_temp_rcsnb_00001_.webp');
   background-size: cover; background-position: center;
   opacity: .18; filter: grayscale(.5);
 }
@@ -715,6 +717,31 @@ footer {
   .ba-slider-wrap, .ba-placeholder { height: 320px; }
   .hero-badge, .hero-badge2 { display: none; }
   .craft-img-float { display: none; }
+
+  /* ── MOBILE HERO: image first, above the fold ── */
+  #hero { padding: 88px 20px 56px; min-height: auto; align-items: flex-start; }
+  .hero-inner { display: flex; flex-direction: column; gap: 28px; }
+  .hero-visual {
+    order: -1;           /* image renders before text in DOM flow */
+    width: 100%;
+    animation: none;     /* kill float so it doesn't shift layout */
+  }
+  .hero-img-wrap {
+    border-radius: var(--r-lg);
+    animation: none;
+  }
+  .hero-img-wrap img {
+    height: 56vw;        /* ~224px on 400px screen, fills width */
+    max-height: 300px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center 30%; /* frame the house + miniature nicely */
+  }
+  .hero-content { order: 0; }
+  .hero-title { font-size: clamp(1.9rem, 7vw, 2.8rem); }
+  .upload-zone { padding: 22px 16px; }
+  .hero-cta-row { flex-direction: column; }
+  .btn-primary, .btn-ghost { justify-content: center; width: 100%; }
 }
 </style>
 </head>
@@ -829,7 +856,10 @@ footer {
     <!-- RIGHT: VISUAL -->
     <div class="hero-visual reveal-right">
       <div class="hero-img-wrap">
-        <img src="images/ComfyUI_temp_dcudn_00001_.png" alt="Photo maison réelle et sa maquette miniature" loading="eager">
+        <picture>
+          <source srcset="images/ComfyUI_temp_dcudn_00001_.webp" type="image/webp">
+          <img src="images/ComfyUI_temp_dcudn_00001_.png" alt="Photo maison réelle et sa maquette miniature" loading="eager" fetchpriority="high" decoding="sync">
+        </picture>
       </div>
       <div class="hero-badge">
         <div class="badge-num">4J</div>
@@ -875,10 +905,16 @@ footer {
     <div class="ba-container reveal">
       <div class="ba-slider-wrap">
         <div class="ba-img ba-before">
-          <img class="ba-placeholder" src="images/ComfyUI_temp_dcudn_00001_.png" alt="Photo maison réelle">
+          <picture>
+            <source srcset="images/ComfyUI_temp_dcudn_00001_.webp" type="image/webp">
+            <img class="ba-placeholder" src="images/ComfyUI_temp_dcudn_00001_.png" alt="Photo maison réelle" loading="lazy" decoding="async">
+          </picture>
         </div>
         <div class="ba-img ba-after" id="ba-after">
-          <img class="ba-placeholder" src="images/ComfyUI_temp_rcsnb_00001_.png" alt="Maquette miniature">
+          <picture>
+            <source srcset="images/ComfyUI_temp_rcsnb_00001_.webp" type="image/webp">
+            <img class="ba-placeholder" src="images/ComfyUI_temp_rcsnb_00001_.png" alt="Maquette miniature" loading="lazy" decoding="async">
+          </picture>
         </div>
         <div class="ba-divider" id="ba-divider"></div>
         <div class="ba-handle" id="ba-handle">
@@ -936,7 +972,10 @@ footer {
     <!-- TECH HIGHLIGHT -->
     <div class="tech-highlight reveal" style="margin-top:64px">
       <div class="tech-highlight-img">
-        <img src="images/ComfyUI_temp_vglpx_00002_.png" alt="Découpe laser en action">
+        <picture>
+          <source srcset="images/ComfyUI_temp_vglpx_00002_.webp" type="image/webp">
+          <img src="images/ComfyUI_temp_vglpx_00002_.png" alt="Découpe laser en action" loading="lazy" decoding="async">
+        </picture>
       </div>
       <div class="tech-highlight-content">
         <span class="display-tag">Précision industrielle</span>
@@ -959,10 +998,16 @@ footer {
     <div class="craft-grid">
       <div class="craft-img-stack reveal-left">
         <div class="craft-img-main">
-          <img src="images/ComfyUI_temp_vglpx_00001_.png" alt="Artisan MiniToit en atelier">
+          <picture>
+            <source srcset="images/ComfyUI_temp_vglpx_00001_.webp" type="image/webp">
+            <img src="images/ComfyUI_temp_vglpx_00001_.png" alt="Artisan MiniToit en atelier" loading="lazy" decoding="async">
+          </picture>
         </div>
         <div class="craft-img-float">
-          <img src="images/ComfyUI_temp_jutls_00001_.png" alt="Charnière micro-pivot 0.5mm">
+          <picture>
+            <source srcset="images/ComfyUI_temp_jutls_00001_.webp" type="image/webp">
+            <img src="images/ComfyUI_temp_jutls_00001_.png" alt="Charnière micro-pivot 0.5mm" loading="lazy" decoding="async">
+          </picture>
         </div>
       </div>
       <div class="craft-content reveal-right">
@@ -1015,7 +1060,10 @@ footer {
     <div class="pricing-grid">
       <!-- S -->
       <div class="pricing-card reveal" style="transition-delay:.0s" data-tilt>
-        <img class="pricing-pkg-img" src="images/ComfyUI_temp_mggut_00001_.png" alt="Packaging S MiniToit">
+        <picture>
+          <source srcset="images/ComfyUI_temp_mggut_00001_.webp" type="image/webp">
+          <img class="pricing-pkg-img" src="images/ComfyUI_temp_mggut_00001_.png" alt="Packaging S MiniToit" loading="lazy" decoding="async">
+        </picture>
         <div class="pricing-size">S</div>
         <div class="pricing-name">Le Collector</div>
         <div class="pricing-dim">12 × 10 × 8 cm</div>
@@ -1031,7 +1079,10 @@ footer {
       </div>
       <!-- M FEATURED -->
       <div class="pricing-card featured reveal" style="transition-delay:.12s" data-tilt>
-        <img class="pricing-pkg-img" src="images/ComfyUI_temp_mggut_00001_.png" alt="Packaging M MiniToit">
+        <picture>
+          <source srcset="images/ComfyUI_temp_mggut_00001_.webp" type="image/webp">
+          <img class="pricing-pkg-img" src="images/ComfyUI_temp_mggut_00001_.png" alt="Packaging M MiniToit" loading="lazy" decoding="async">
+        </picture>
         <div class="pricing-size">M</div>
         <div class="pricing-name">Le Favori</div>
         <div class="pricing-dim">22 × 18 × 14 cm</div>
@@ -1048,7 +1099,10 @@ footer {
       </div>
       <!-- L -->
       <div class="pricing-card reveal" style="transition-delay:.24s" data-tilt>
-        <img class="pricing-pkg-img" src="images/ComfyUI_temp_mggut_00001_.png" alt="Packaging L MiniToit">
+        <picture>
+          <source srcset="images/ComfyUI_temp_mggut_00001_.webp" type="image/webp">
+          <img class="pricing-pkg-img" src="images/ComfyUI_temp_mggut_00001_.png" alt="Packaging L MiniToit" loading="lazy" decoding="async">
+        </picture>
         <div class="pricing-size">L</div>
         <div class="pricing-name">Le Showroom</div>
         <div class="pricing-dim">38 × 30 × 24 cm</div>
