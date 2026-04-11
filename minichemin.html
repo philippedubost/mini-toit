@@ -7,7 +7,7 @@
 <meta name="description" content="Un jeu de l'oie personnalisé avec vos vrais lieux : maison, école, boulangerie, mairie… Un trajet réel transformé en jeu de société fait main à Nantes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="images/minichemin/ComfyUI_temp_rgztr_00001_.webp" fetchpriority="high">
 <style>
   :root {
@@ -27,7 +27,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background: var(--white);
     color: var(--ink);
     overflow-x: hidden;
@@ -64,7 +64,7 @@
     height: 60px;
   }
   .nav-brand {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: 1.25rem; font-weight: 700;
     color: var(--teal); text-decoration: none;
   }
@@ -103,7 +103,7 @@
     letter-spacing: .06em; text-transform: uppercase;
   }
   h1 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: clamp(2.2rem, 4vw, 3.4rem);
     line-height: 1.18; color: var(--ink);
   }
@@ -230,7 +230,7 @@
     text-transform: uppercase; color: var(--teal); margin-bottom: 12px;
   }
   .section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: clamp(1.8rem, 3vw, 2.6rem);
     line-height: 1.22; color: var(--ink); margin-bottom: 16px;
   }
@@ -338,7 +338,7 @@
   .pricing-name { font-weight: 700; font-size: 1rem; margin-bottom: 4px; color: var(--teal); }
   .pricing-desc { font-size: .85rem; color: var(--ink-soft); margin-bottom: 24px; }
   .pricing-price {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: 2.8rem; color: var(--ink);
     margin-bottom: 4px; line-height: 1;
   }
@@ -406,7 +406,7 @@
   }
   .family-nav-inner { max-width: 800px; margin: 0 auto; text-align: center; }
   .family-nav-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: 1rem; color: var(--ink-soft); margin-bottom: 20px;
   }
   .family-pills { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
@@ -498,7 +498,7 @@
     cursor: pointer; color: var(--ink-soft);
   }
   .modal h2 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: 1.6rem; margin-bottom: 8px;
   }
   .modal p { color: var(--ink-soft); font-size: .9rem; line-height: 1.6; margin-bottom: 24px; }
@@ -522,6 +522,24 @@
   /* ─── REVEAL ─── */
   .reveal { opacity: 0; transform: translateY(24px); }
   .reveal.visible { opacity: 1; transform: none; transition: opacity .5s, transform .5s; }
+
+  /* ─── NAV NEXT ─── */
+  .nav-next-mini { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:100px; border:1.5px solid rgba(42,127,127,.3); font-size:.78rem; font-weight:700; color:var(--ink); text-decoration:none; transition:border-color .2s,color .2s; }
+  .nav-next-mini:hover { border-color:var(--teal); color:var(--teal); }
+
+  /* ─── FAMILY SHELF ─── */
+  .family-shelf { background:#1A1612; padding:72px 24px; border-top:1px solid rgba(255,255,255,.04); }
+  .family-shelf-label { font-family:'Quicksand',sans-serif; font-size:.7rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.3); text-align:center; margin-bottom:32px; }
+  .family-cards { display:flex; gap:14px; max-width:1000px; margin:0 auto; justify-content:center; flex-wrap:wrap; }
+  .fcard { position:relative; width:168px; height:224px; border-radius:18px; overflow:hidden; text-decoration:none; background-size:cover; background-position:center; transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s; flex-shrink:0; }
+  .fcard:hover { transform:translateY(-8px) scale(1.04); box-shadow:0 20px 48px rgba(0,0,0,.55); }
+  .fcard.active { box-shadow:0 0 0 3px rgba(255,255,255,.75),0 0 0 7px rgba(255,255,255,.1),0 12px 40px rgba(0,0,0,.4); }
+  .fcard-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.3) 55%,transparent 100%); }
+  .fcard-body { position:absolute; bottom:0; left:0; right:0; padding:14px 12px; }
+  .fcard-emoji { display:block; font-size:1.3rem; margin-bottom:4px; }
+  .fcard-name { display:block; font-family:'Quicksand',sans-serif; font-weight:700; font-size:.92rem; color:#fff; }
+  .fcard-tag { display:block; font-size:.67rem; color:rgba(255,255,255,.55); margin-top:2px; }
+  .fcard-here { position:absolute; top:10px; right:10px; background:rgba(255,255,255,.92); color:#1A1612; font-size:.58rem; font-weight:700; padding:2px 8px; border-radius:20px; }
 </style>
 </head>
 <body>
@@ -531,11 +549,12 @@
 
 <!-- NAV -->
 <nav>
-  <a class="nav-brand" href="index.html">🏠 MiniToit</a>
+  <a class="nav-brand" href="index.html">🎲 MiniChemin</a>
   <div class="nav-links">
     <a href="#comment">Comment ça marche</a>
     <a href="#tarifs">Tarifs</a>
     <a href="#faq">FAQ</a>
+    <a href="miniarbre.html" class="nav-next-mini">🌳 Voir MiniArbre</a>
     <a href="#commander" class="nav-cta">Commander</a>
   </div>
 </nav>
@@ -551,7 +570,6 @@
     </p>
     <div class="hero-actions">
       <button class="btn-primary" onclick="openModal()">Créer mon MiniChemin</button>
-      <a href="#comment" class="btn-secondary">Voir comment ça marche</a>
     </div>
     <div class="hero-badges">
       <div class="hero-badge">📦 Livraison sous 10J</div>
@@ -606,22 +624,17 @@
       <div class="how-card reveal">
         <div class="how-num">1</div>
         <h3>Vos lieux</h3>
-        <p>Partagez-nous l'adresse de départ, l'arrivée, et les étapes importantes — boulangerie, parc, bibliothèque, maison de Mamie… jusqu'à 12 étapes.</p>
+        <p>Adresse de départ, d'arrivée, et les étapes du quotidien — boulangerie, école, parc, Mamie. Jusqu'à 12 étapes.</p>
       </div>
       <div class="how-card reveal">
         <div class="how-num">2</div>
-        <h3>On dessine le chemin</h3>
-        <p>Notre illustratrice trace le plateau à la main : chaque lieu est dessiné avec ses détails réels, le style est poétique et chaleureux.</p>
+        <h3>Notre atelier</h3>
+        <p>On dessine le plateau à la main et on découpe les pions au laser dans le bouleau. Chaque lieu illustré avec ses vrais détails.</p>
       </div>
       <div class="how-card reveal">
         <div class="how-num">3</div>
-        <h3>Impression et découpe</h3>
-        <p>Le plateau est imprimé sur carton épais, les pions et le dé sont découpés au laser dans le bouleau. Assemblage à la main.</p>
-      </div>
-      <div class="how-card reveal">
-        <div class="how-num">4</div>
-        <h3>Votre jeu arrive</h3>
-        <p>Plateau plié, pions nominatifs gravés, dé bois, règles illustrées — le tout dans une boîte kraft avec le prénom de votre enfant.</p>
+        <h3>Livré chez vous</h3>
+        <p>Plateau, pions gravés, dé bois, règles illustrées — dans une boîte kraft au prénom de votre enfant. En 10 jours.</p>
       </div>
     </div>
   </div>
@@ -772,17 +785,31 @@
   </div>
 </section>
 
-<!-- FAMILY NAV -->
-<div class="family-nav-section">
-  <div class="family-nav-inner">
-    <div class="family-nav-title">La famille Mini</div>
-    <div class="family-pills">
-      <a href="index.html" class="family-pill">🏠 MiniToit</a>
-      <a href="miniroute.html" class="family-pill">🗺️ MiniRoute</a>
-      <a href="miniarbre.html" class="family-pill">🌳 MiniArbre</a>
-      <a href="minitribu.html" class="family-pill">👨‍👩‍👧‍👦 MiniTribu</a>
-      <div class="family-pill active">🎲 MiniChemin <span class="here">ici</span></div>
+<!-- FAMILY SHELF -->
+<div class="family-shelf">
+  <div class="family-shelf-label">La famille Mini</div>
+  <div class="family-cards">
+    <a href="index.html" class="fcard" style="background-image:url('images/mini-toit/photo_maquette.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">🏠</span><span class="fcard-name">MiniToit</span><span class="fcard-tag">Maquette bois</span></div>
+    </a>
+    <a href="miniroute.html" class="fcard" style="background-image:url('images/mini-route/hero.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">🗺️</span><span class="fcard-name">MiniRoute</span><span class="fcard-tag">Tapis de quartier</span></div>
+    </a>
+    <a href="minitribu.html" class="fcard" style="background-image:url('images/minitribu/ComfyUI_temp_lltiz_00001_.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">👨‍👩‍👧‍👦</span><span class="fcard-name">MiniTribu</span><span class="fcard-tag">Figurines laser</span></div>
+    </a>
+    <div class="fcard active" style="background-image:url('images/minichemin/ComfyUI_temp_srars_00001_.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">🎲</span><span class="fcard-name">MiniChemin</span><span class="fcard-tag">Jeu de l'oie</span></div>
+      <span class="fcard-here">ici</span>
     </div>
+    <a href="miniarbre.html" class="fcard" style="background-image:url('images/miniarbre/ComfyUI_temp_kvcgs_00001_.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">🌳</span><span class="fcard-name">MiniArbre</span><span class="fcard-tag">Arbre généalogique</span></div>
+    </a>
   </div>
 </div>
 

@@ -324,7 +324,7 @@ nav.scrolled {
 .ba-before img, .ba-after img { width: 100%; height: 100%; object-fit: cover; }
 .ba-after {
   z-index: 2; overflow: hidden;
-  clip-path: inset(0 50% 0 0);
+  clip-path: inset(0 0 0 50%);
   transition: clip-path .02s;
 }
 .ba-placeholder { width: 100%; height: 520px; display: block; object-fit: cover; }
@@ -370,12 +370,12 @@ nav.scrolled {
 /* ─── PROCESS ────────────────────────────────────────────────── */
 #process { background: var(--cream); }
 .process-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
   position: relative;
 }
 .process-grid::before {
   content: '';
-  position: absolute; top: 52px; left: calc(12.5% + 12px); right: calc(12.5% + 12px);
+  position: absolute; top: 52px; left: calc(16.67% + 12px); right: calc(16.67% + 12px);
   height: 2px; background: linear-gradient(90deg, var(--birch-light), var(--denim-light), var(--clay-light), var(--sage-light));
   z-index: 0;
 }
@@ -690,6 +690,47 @@ footer {
 .footer-bottom p { font-size: .76rem; }
 .footer-made { display: flex; align-items: center; gap: 6px; font-size: .76rem; color: var(--clay-light); font-weight: 600; }
 
+/* ─── NAV NEXT MINI ──────────────────────────────────────────── */
+.nav-next-mini {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 100px;
+  border: 1.5px solid var(--birch-light);
+  font-size: .78rem; font-weight: 700; color: var(--text);
+  transition: border-color var(--t), color var(--t);
+}
+.nav-next-mini:hover { border-color: var(--clay); color: var(--clay); }
+
+/* ─── FAMILY SHELF ───────────────────────────────────────────── */
+.family-shelf { background: #1A1612; padding: 72px 24px; border-top: 1px solid rgba(255,255,255,.04); }
+.family-shelf-label {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .7rem; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: rgba(255,255,255,.3);
+  text-align: center; margin-bottom: 32px;
+}
+.family-cards { display: flex; gap: 14px; max-width: 1000px; margin: 0 auto; justify-content: center; flex-wrap: wrap; }
+.fcard {
+  position: relative; width: 168px; height: 224px;
+  border-radius: 18px; overflow: hidden; text-decoration: none;
+  background-size: cover; background-position: center;
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+  flex-shrink: 0;
+}
+.fcard:hover { transform: translateY(-8px) scale(1.04); box-shadow: 0 20px 48px rgba(0,0,0,.55); }
+.fcard.active { box-shadow: 0 0 0 3px rgba(255,255,255,.75), 0 0 0 7px rgba(255,255,255,.1), 0 12px 40px rgba(0,0,0,.4); }
+.fcard-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.3) 55%, transparent 100%); }
+.fcard-body { position: absolute; bottom: 0; left: 0; right: 0; padding: 14px 12px; }
+.fcard-emoji { display: block; font-size: 1.3rem; margin-bottom: 4px; }
+.fcard-name { display: block; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: .92rem; color: #fff; }
+.fcard-tag { display: block; font-size: .67rem; color: rgba(255,255,255,.55); margin-top: 2px; }
+.fcard-here {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(255,255,255,.92); color: #1A1612;
+  font-size: .58rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 20px;
+  letter-spacing: .05em; text-transform: uppercase;
+}
+
 /* ─── RESPONSIVE ─────────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .hero-inner { grid-template-columns: 1fr; gap: 40px; }
@@ -798,10 +839,7 @@ footer {
     <a href="#craft">Fabrication</a>
     <a href="#pricing">Tarifs</a>
     <a href="#faq">FAQ</a>
-    <a href="miniroute.html" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:100px;border:1.5px solid var(--birch-light);font-size:.78rem;font-weight:600;color:var(--text);transition:border-color var(--t),color var(--t)" onmouseover="this.style.borderColor='var(--denim)';this.style.color='var(--denim)'" onmouseout="this.style.borderColor='var(--birch-light)';this.style.color='var(--text)'">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      Voir MiniRoute
-    </a>
+    <a href="miniroute.html" class="nav-next-mini">🗺️ Voir MiniRoute</a>
     <button class="nav-cta" onclick="openModal()">Commander</button>
   </div>
   <button class="nav-mobile-btn" id="nav-toggle" aria-label="Menu">
@@ -952,27 +990,21 @@ footer {
     <div class="process-grid">
       <div class="process-card reveal" style="transition-delay:.0s">
         <div class="process-icon pi-1" data-step="1">📷</div>
-        <div class="process-num">Étape 01</div>
-        <h3>Votre photo</h3>
-        <p>On lit votre façade — ses lignes, ses volumes, ce qui fait que c'est vraiment chez vous. Une photo suffit.</p>
+        <div class="process-num">Votre photo</div>
+        <h3>La façade de votre maison</h3>
+        <p>Une photo de face, en plein jour. C'est tout ce qu'il nous faut.</p>
       </div>
       <div class="process-card reveal" style="transition-delay:.12s">
-        <div class="process-icon pi-2" data-step="2">✦</div>
-        <div class="process-num">Étape 02</div>
-        <h3>L'esquisse</h3>
-        <p>On retranscrit votre maison en tracés. Chaque ouverture, chaque détail de façade est préparé pour le bois.</p>
+        <div class="process-icon pi-2" data-step="2">🔴</div>
+        <div class="process-num">Notre atelier</div>
+        <h3>On grave à Nantes</h3>
+        <p>Laser sur bouleau, pièce par pièce. Chaque détail de façade reproduit fidèlement.</p>
       </div>
       <div class="process-card reveal" style="transition-delay:.24s">
-        <div class="process-icon pi-3" data-step="3">🔴</div>
-        <div class="process-num">Étape 03</div>
-        <h3>La découpe</h3>
-        <p>Le laser entre en jeu. Dans notre atelier nantais, il découpe et grave chaque pièce dans le bouleau, une à une.</p>
-      </div>
-      <div class="process-card reveal" style="transition-delay:.36s">
-        <div class="process-icon pi-4" data-step="4">🏠</div>
-        <div class="process-num">Étape 04</div>
-        <h3>Votre aperçu</h3>
-        <p>Avant de lancer la fabrication, vous voyez à quoi ressemblera votre Mini Toit. Vous validez, on fabrique.</p>
+        <div class="process-icon pi-3" data-step="3">📦</div>
+        <div class="process-num">Livraison</div>
+        <h3>Livrée chez vous</h3>
+        <p>Emballée dans sa boîte kraft, en 4 jours ouvrés. Prête à offrir.</p>
       </div>
     </div>
 
@@ -1209,17 +1241,31 @@ footer {
   </div>
 </section>
 
-<!-- ═══════════════ FAMILY NAV ═══════════════ -->
-<div style="background:var(--white);border-top:1px solid var(--birch-light);border-bottom:1px solid var(--birch-light);padding:36px 24px">
-  <div style="max-width:1160px;margin:0 auto">
-    <div style="font-family:'Quicksand',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:20px">La famille Mini</div>
-    <div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;justify-content:center;flex-wrap:wrap">
-      <div style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:var(--r-md);border:2px solid var(--birch);background:var(--birch-pale);white-space:nowrap;flex-shrink:0"><span style="font-size:1.2rem">🏠</span><div><div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:.85rem;color:var(--dark)">MiniToit <span style="font-size:.62rem;background:var(--clay);color:white;padding:1px 7px;border-radius:100px;vertical-align:middle">ici</span></div><div style="font-size:.7rem;color:var(--muted)">Maquette bois</div></div></div>
-      <a href="miniroute.html" style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:var(--r-md);border:1.5px solid #E5E7EB;text-decoration:none;white-space:nowrap;transition:border-color .3s,transform .3s;flex-shrink:0" onmouseover="this.style.borderColor='#4A9B5E';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#E5E7EB';this.style.transform=''"><span style="font-size:1.2rem">🗺️</span><div><div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:.85rem;color:var(--dark)">MiniRoute</div><div style="font-size:.7rem;color:var(--muted)">Tapis de quartier</div></div></a>
-      <a href="miniarbre.html" style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:var(--r-md);border:1.5px solid #E5E7EB;text-decoration:none;white-space:nowrap;transition:border-color .3s,transform .3s;flex-shrink:0" onmouseover="this.style.borderColor='#D4891A';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#E5E7EB';this.style.transform=''"><span style="font-size:1.2rem">🌳</span><div><div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:.85rem;color:var(--dark)">MiniArbre</div><div style="font-size:.7rem;color:var(--muted)">Arbre généalogique</div></div></a>
-      <a href="minitribu.html" style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:var(--r-md);border:1.5px solid #E5E7EB;text-decoration:none;white-space:nowrap;transition:border-color .3s,transform .3s;flex-shrink:0" onmouseover="this.style.borderColor='#C4705A';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#E5E7EB';this.style.transform=''"><span style="font-size:1.2rem">👨‍👩‍👧‍👦</span><div><div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:.85rem;color:var(--dark)">MiniTribu</div><div style="font-size:.7rem;color:var(--muted)">Figurines laser</div></div></a>
-      <a href="minichemin.html" style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:var(--r-md);border:1.5px solid #E5E7EB;text-decoration:none;white-space:nowrap;transition:border-color .3s,transform .3s;flex-shrink:0" onmouseover="this.style.borderColor='#4ABFB0';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#E5E7EB';this.style.transform=''"><span style="font-size:1.2rem">🎲</span><div><div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:.85rem;color:var(--dark)">MiniChemin</div><div style="font-size:.7rem;color:var(--muted)">Jeu de l'oie</div></div></a>
+<!-- ═══════════════ FAMILY SHELF ═══════════════ -->
+<div class="family-shelf">
+  <div class="family-shelf-label">La famille Mini</div>
+  <div class="family-cards">
+    <div class="fcard active" style="background-image:url('images/mini-toit/photo_maquette.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">🏠</span><span class="fcard-name">MiniToit</span><span class="fcard-tag">Maquette bois</span></div>
+      <span class="fcard-here">ici</span>
     </div>
+    <a href="miniroute.html" class="fcard" style="background-image:url('images/mini-route/hero.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">🗺️</span><span class="fcard-name">MiniRoute</span><span class="fcard-tag">Tapis de quartier</span></div>
+    </a>
+    <a href="miniarbre.html" class="fcard" style="background-image:url('images/miniarbre/ComfyUI_temp_kvcgs_00001_.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">🌳</span><span class="fcard-name">MiniArbre</span><span class="fcard-tag">Arbre généalogique</span></div>
+    </a>
+    <a href="minitribu.html" class="fcard" style="background-image:url('images/minitribu/ComfyUI_temp_lltiz_00001_.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">👨‍👩‍👧‍👦</span><span class="fcard-name">MiniTribu</span><span class="fcard-tag">Figurines laser</span></div>
+    </a>
+    <a href="minichemin.html" class="fcard" style="background-image:url('images/minichemin/ComfyUI_temp_srars_00001_.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">🎲</span><span class="fcard-name">MiniChemin</span><span class="fcard-tag">Jeu de l'oie</span></div>
+    </a>
   </div>
 </div>
 
@@ -1326,7 +1372,7 @@ const divider = document.getElementById('ba-divider');
 const handle = document.getElementById('ba-handle');
 if (range) {
   const update = (v) => {
-    after.style.clipPath = `inset(0 ${100 - v}% 0 0)`;
+    after.style.clipPath = `inset(0 0 0 ${100 - v}%)`;
     divider.style.left = v + '%';
     handle.style.left = v + '%';
   };

@@ -7,7 +7,7 @@
 <meta name="description" content="Transformez vos photos en figurines bois découpées au laser. Chaque membre de la famille immortalisé à l'identique, fabriqué à Nantes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="images/minitribu/ComfyUI_temp_lltiz_00001_.webp" fetchpriority="high">
 <style>
   :root {
@@ -27,7 +27,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background: var(--white);
     color: var(--text);
     overflow-x: hidden;
@@ -64,7 +64,7 @@
     height: 60px;
   }
   .nav-brand {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: 1.25rem; font-weight: 700;
     color: var(--clay); text-decoration: none;
   }
@@ -105,7 +105,7 @@
     letter-spacing: .06em; text-transform: uppercase;
   }
   h1 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: clamp(2.2rem, 4vw, 3.4rem);
     line-height: 1.18; color: var(--bark-dark);
   }
@@ -246,7 +246,7 @@
     margin-bottom: 12px;
   }
   .section-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: clamp(1.8rem, 3vw, 2.6rem);
     line-height: 1.22; color: var(--bark-dark);
     margin-bottom: 16px;
@@ -366,7 +366,7 @@
   .pricing-name { font-weight: 700; font-size: 1rem; margin-bottom: 4px; color: var(--clay); }
   .pricing-desc { font-size: .85rem; color: var(--text-soft); margin-bottom: 24px; }
   .pricing-price {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: 2.8rem; color: var(--bark-dark);
     margin-bottom: 4px; line-height: 1;
   }
@@ -413,7 +413,7 @@
   }
   .family-nav-inner { max-width: 800px; margin: 0 auto; text-align: center; }
   .family-nav-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: 1rem; color: var(--text-soft);
     margin-bottom: 20px;
   }
@@ -507,7 +507,7 @@
     cursor: pointer; color: var(--text-soft);
   }
   .modal h2 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Quicksand', sans-serif;
     font-size: 1.6rem; margin-bottom: 8px;
   }
   .modal p { color: var(--text-soft); font-size: .9rem; line-height: 1.6; margin-bottom: 24px; }
@@ -521,6 +521,24 @@
   .upload-zone p { margin: 0; font-weight: 600; }
   .upload-zone small { color: var(--text-soft); font-size: .82rem; }
   input[type=file] { display: none; }
+
+  /* ─── NAV NEXT ─── */
+  .nav-next-mini { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:100px; border:1.5px solid rgba(192,104,74,.3); font-size:.78rem; font-weight:700; color:var(--text); text-decoration:none; transition:border-color .2s,color .2s; }
+  .nav-next-mini:hover { border-color:var(--clay); color:var(--clay); }
+
+  /* ─── FAMILY SHELF ─── */
+  .family-shelf { background:#1A1612; padding:72px 24px; border-top:1px solid rgba(255,255,255,.04); }
+  .family-shelf-label { font-family:'Quicksand',sans-serif; font-size:.7rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.3); text-align:center; margin-bottom:32px; }
+  .family-cards { display:flex; gap:14px; max-width:1000px; margin:0 auto; justify-content:center; flex-wrap:wrap; }
+  .fcard { position:relative; width:168px; height:224px; border-radius:18px; overflow:hidden; text-decoration:none; background-size:cover; background-position:center; transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s; flex-shrink:0; }
+  .fcard:hover { transform:translateY(-8px) scale(1.04); box-shadow:0 20px 48px rgba(0,0,0,.55); }
+  .fcard.active { box-shadow:0 0 0 3px rgba(255,255,255,.75),0 0 0 7px rgba(255,255,255,.1),0 12px 40px rgba(0,0,0,.4); }
+  .fcard-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.3) 55%,transparent 100%); }
+  .fcard-body { position:absolute; bottom:0; left:0; right:0; padding:14px 12px; }
+  .fcard-emoji { display:block; font-size:1.3rem; margin-bottom:4px; }
+  .fcard-name { display:block; font-family:'Quicksand',sans-serif; font-weight:700; font-size:.92rem; color:#fff; }
+  .fcard-tag { display:block; font-size:.67rem; color:rgba(255,255,255,.55); margin-top:2px; }
+  .fcard-here { position:absolute; top:10px; right:10px; background:rgba(255,255,255,.92); color:#1A1612; font-size:.58rem; font-weight:700; padding:2px 8px; border-radius:20px; }
 </style>
 </head>
 <body>
@@ -535,6 +553,7 @@
     <a href="#comment">Comment ça marche</a>
     <a href="#tarifs">Tarifs</a>
     <a href="#faq">FAQ</a>
+    <a href="minichemin.html" class="nav-next-mini">🎲 Voir MiniChemin</a>
     <a href="#commander" class="nav-cta">Commander</a>
   </div>
 </nav>
@@ -550,7 +569,6 @@
     </p>
     <div class="hero-actions">
       <button class="btn-primary" onclick="openModal()">Commencer ma tribu</button>
-      <a href="#comment" class="btn-secondary">Voir comment ça marche</a>
     </div>
     <div class="hero-badges">
       <div class="hero-badge">📦 Livraison sous 7J</div>
@@ -605,22 +623,17 @@
       <div class="how-card reveal">
         <div class="how-num">1</div>
         <h3>Vos photos</h3>
-        <p>Partagez-nous des photos de chaque membre de la famille — une photo de face suffit. Plus elle est nette, plus la silhouette sera fidèle.</p>
+        <p>Une photo de face de chaque membre — c'est tout. Plus elle est nette, plus la silhouette sera fidèle.</p>
       </div>
       <div class="how-card reveal">
         <div class="how-num">2</div>
-        <h3>On dessine les silhouettes</h3>
-        <p>Notre atelier trace à la main les contours de chaque personnage pour capturer la posture, la coiffure, les détails qui vous rendent uniques.</p>
+        <h3>Notre atelier</h3>
+        <p>On trace les contours à la main, puis on découpe au laser dans le bouleau 6 mm. Chaque détail qui vous rend unique est gardé.</p>
       </div>
       <div class="how-card reveal">
         <div class="how-num">3</div>
-        <h3>Découpe laser</h3>
-        <p>Chaque silhouette est découpée dans du bois de bouleau 6 mm à la précision du dixième de millimètre. Le bois naturel garde ses veines brutes.</p>
-      </div>
-      <div class="how-card reveal">
-        <div class="how-num">4</div>
-        <h3>Votre tribu arrive</h3>
-        <p>Les figurines sont assemblées sur leur socle bois gravé de vos prénoms, emballées avec soin dans une boîte kraft et envoyées chez vous.</p>
+        <h3>Livrée chez vous</h3>
+        <p>Figurines sur socle gravé, emballées dans une boîte kraft. En 7 jours, votre tribu est à la maison.</p>
       </div>
     </div>
   </div>
@@ -766,17 +779,31 @@
   </div>
 </section>
 
-<!-- FAMILY NAV -->
-<div class="family-nav-section">
-  <div class="family-nav-inner">
-    <div class="family-nav-title">La famille Mini</div>
-    <div class="family-pills">
-      <a href="index.html" class="family-pill">🏠 MiniToit</a>
-      <a href="miniroute.html" class="family-pill">🗺️ MiniRoute</a>
-      <a href="miniarbre.html" class="family-pill">🌳 MiniArbre</a>
-      <div class="family-pill active">👨‍👩‍👧‍👦 MiniTribu <span class="here">ici</span></div>
-      <a href="minichemin.html" class="family-pill">🎲 MiniChemin</a>
+<!-- FAMILY SHELF -->
+<div class="family-shelf">
+  <div class="family-shelf-label">La famille Mini</div>
+  <div class="family-cards">
+    <a href="index.html" class="fcard" style="background-image:url('images/mini-toit/photo_maquette.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">🏠</span><span class="fcard-name">MiniToit</span><span class="fcard-tag">Maquette bois</span></div>
+    </a>
+    <a href="miniroute.html" class="fcard" style="background-image:url('images/mini-route/hero.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">🗺️</span><span class="fcard-name">MiniRoute</span><span class="fcard-tag">Tapis de quartier</span></div>
+    </a>
+    <div class="fcard active" style="background-image:url('images/minitribu/ComfyUI_temp_lltiz_00001_.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">👨‍👩‍👧‍👦</span><span class="fcard-name">MiniTribu</span><span class="fcard-tag">Figurines laser</span></div>
+      <span class="fcard-here">ici</span>
     </div>
+    <a href="minichemin.html" class="fcard" style="background-image:url('images/minichemin/ComfyUI_temp_srars_00001_.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">🎲</span><span class="fcard-name">MiniChemin</span><span class="fcard-tag">Jeu de l'oie</span></div>
+    </a>
+    <a href="miniarbre.html" class="fcard" style="background-image:url('images/miniarbre/ComfyUI_temp_kvcgs_00001_.webp')">
+      <div class="fcard-overlay"></div>
+      <div class="fcard-body"><span class="fcard-emoji">🌳</span><span class="fcard-name">MiniArbre</span><span class="fcard-tag">Arbre généalogique</span></div>
+    </a>
   </div>
 </div>
 
