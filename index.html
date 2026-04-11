@@ -488,11 +488,6 @@ nav.scrolled {
   transform-style: preserve-3d;
   will-change: transform;
 }
-.pricing-card::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(160deg, rgba(255,255,255,.8) 0%, rgba(250,247,242,.4) 100%);
-  pointer-events: none;
-}
 .pricing-card.featured {
   border-color: var(--clay); background: linear-gradient(160deg, var(--clay-pale) 0%, var(--white) 60%);
   transform: scale(1.04);
@@ -500,12 +495,13 @@ nav.scrolled {
 }
 .pricing-card.featured::after {
   content: 'Le plus populaire';
-  position: absolute; top: 16px; right: -22px;
+  position: absolute; top: 22px; right: -28px;
+  width: 120px; text-align: center;
   background: var(--clay); color: var(--white);
-  font-family: 'Quicksand', sans-serif; font-size: .68rem; font-weight: 700;
+  font-family: 'Quicksand', sans-serif; font-size: .62rem; font-weight: 700;
   letter-spacing: .08em; text-transform: uppercase;
-  padding: 5px 32px; transform: rotate(45deg);
-  box-shadow: var(--sh-sm);
+  padding: 5px 0; transform: rotate(45deg);
+  box-shadow: 0 2px 8px rgba(196,112,90,.35);
 }
 .pricing-card:hover:not(.featured) {
   transform: translateY(-8px) scale(1.01);
