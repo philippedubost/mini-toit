@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="images/mini-route/designexemple.webp" type="image/webp" fetchpriority="high">
 <style>
 /* ─── VARIABLES ─────────────────────────────────────────────── */
 :root {
@@ -51,7 +52,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 /* ─── SCROLL PROGRESS ───────────────────────────────────────── */
 #scroll-bar {
-  position: fixed; top: 0; left: 0; height: 3px; width: 0;
+  position: fixed; top: 3px; left: 0; height: 2px; width: 0;
   background: linear-gradient(90deg, var(--grass), var(--water), var(--signal), var(--marking));
   z-index: 9999; transition: width .1s linear;
 }
@@ -633,6 +634,9 @@ footer { background: var(--dark); color: rgba(255,255,255,.55); padding: 64px 24
   </div>
 </div>
 
+<!-- ─── FAMILY STRIP ────────────────────────────────────── -->
+<div style="position:fixed;top:0;left:0;right:0;z-index:1001;height:3px;background:linear-gradient(90deg,#C4A882 0%,#C4A882 50%,#4A9B5E 50%,#E8443A 75%,#F5C518 100%)"></div>
+
 <!-- ─── NAV ─────────────────────────────────────────────── -->
 <nav id="navbar">
   <div class="nav-logo">
@@ -713,14 +717,10 @@ footer { background: var(--dark); color: rgba(255,255,255,.55); padding: 64px 24
 
     <div class="hero-visual reveal-right">
       <div class="hero-img-wrap">
-        <!-- placeholder : remplacer par images/mini-route/hero.webp -->
-        <div style="width:100%;height:460px;background:linear-gradient(135deg,var(--grass-pale) 0%,var(--water-pale) 35%,var(--road-pale) 65%,var(--marking-pale) 100%);position:relative;overflow:hidden">
-          <div style="position:absolute;inset:0;background-image:linear-gradient(var(--road) 3px,transparent 3px),linear-gradient(90deg,var(--road) 3px,transparent 3px),linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);background-size:64px 64px,64px 64px,16px 16px,16px 16px;opacity:.2"></div>
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px">
-            <div style="font-family:'Quicksand',sans-serif;font-size:1rem;font-weight:700;color:var(--grass);text-align:center">🗺️ Aperçu tapis personnalisé</div>
-            <div style="font-size:.8rem;color:var(--muted);text-align:center">Photo bientôt disponible</div>
-          </div>
-        </div>
+        <picture>
+          <source srcset="images/mini-route/designexemple.webp" type="image/webp">
+          <img src="images/mini-route/designexemple.png" alt="Exemple de tapis MiniRoute — vue illustrée d'un quartier" loading="eager" fetchpriority="high" decoding="sync" style="width:100%;height:460px;object-fit:cover;object-position:center center">
+        </picture>
       </div>
       <div class="hero-badge">
         <div class="badge-num">7J</div>
@@ -766,21 +766,20 @@ footer { background: var(--dark); color: rgba(255,255,255,.55); padding: 64px 24
     <div class="map-compare-outer reveal">
       <div class="map-compare-wrap">
         <div class="map-compare-card">
-          <div style="width:100%;height:360px;background:linear-gradient(135deg,#5a7a3a 0%,#4a6a2a 30%,#8a7a4a 55%,#6a5a3a 80%,#4a6a2a 100%);position:relative;overflow:hidden">
-            <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.15) 1px,transparent 1px);background-size:30px 30px;opacity:.4"></div>
-            <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-size:.72rem;color:rgba(255,255,255,.8);font-family:'Quicksand',sans-serif;font-weight:700">Vue satellite Google Maps</div>
-          </div>
+          <picture>
+            <source srcset="images/mini-route/sateliteexemple.webp" type="image/webp">
+            <img src="images/mini-route/sateliteexemple.png" alt="Vue satellite Google Maps du quartier" loading="lazy" decoding="async" style="width:100%;height:360px;object-fit:cover;display:block">
+          </picture>
           <span class="card-label label-before">Vue satellite</span>
         </div>
         <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;width:52px;height:52px;border-radius:50%;background:white;box-shadow:var(--sh-md);display:flex;align-items:center;justify-content:center;animation:arrowPulse 2s ease-in-out infinite">
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 11h12M13 6l5 5-5 5" stroke="var(--signal)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div class="map-compare-card">
-          <div style="width:100%;height:360px;background:linear-gradient(135deg,var(--grass-pale) 0%,var(--water-pale) 30%,var(--marking-pale) 60%,var(--grass-pale) 100%);position:relative;overflow:hidden">
-            <div style="position:absolute;inset:0;background-image:linear-gradient(var(--road) 4px,transparent 4px),linear-gradient(90deg,var(--road) 4px,transparent 4px);background-size:56px 56px;opacity:.25"></div>
-            <div style="position:absolute;inset:0;background-image:linear-gradient(var(--marking) 2px,transparent 2px),linear-gradient(90deg,var(--marking) 2px,transparent 2px);background-size:56px 56px;background-position:28px 28px;opacity:.12"></div>
-            <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-size:.72rem;color:var(--grass);font-family:'Quicksand',sans-serif;font-weight:700">Tapis MiniRoute ✦</div>
-          </div>
+          <picture>
+            <source srcset="images/mini-route/designexemple.webp" type="image/webp">
+            <img src="images/mini-route/designexemple.png" alt="Le même quartier transformé en tapis de jeu illustré" loading="lazy" decoding="async" style="width:100%;height:360px;object-fit:cover;object-position:center center;display:block">
+          </picture>
           <span class="card-label label-after">Votre MiniRoute ✦</span>
         </div>
       </div>
@@ -830,10 +829,10 @@ footer { background: var(--dark); color: rgba(255,255,255,.55); padding: 64px 24
     <!-- MAP SHOWCASE -->
     <div class="map-showcase reveal">
       <div class="map-showcase-visual">
-        <!-- placeholder : remplacer par images/mini-route/process.webp -->
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a3a2a,#2a4a3a);display:flex;align-items:center;justify-content:center">
-          <div style="text-align:center;color:rgba(255,255,255,.4);font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700">📸 Photo parent + laptop<br><span style="font-weight:400;font-size:.78rem">à venir</span></div>
-        </div>
+        <picture>
+          <source srcset="images/mini-route/designexemple.webp" type="image/webp">
+          <img src="images/mini-route/designexemple.png" alt="Détail du design tapis MiniRoute — rues illustrées" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:40% center">
+        </picture>
       </div>
       <div class="map-showcase-content">
         <span class="display-tag">Impression responsable</span>
@@ -915,7 +914,7 @@ footer { background: var(--dark); color: rgba(255,255,255,.55); padding: 64px 24
 
 <!-- ═══════════════ EMOTION ═══════════════ -->
 <section id="emotion">
-  <div class="emotion-bg" style="background-color:var(--dark)"></div>
+  <div class="emotion-bg" style="background-image:url('images/mini-route/designexemple.webp');background-size:cover;background-position:center"></div>
   <div class="emotion-inner">
     <span class="display-tag reveal">Pour les grands enfants aussi</span>
     <h2 class="reveal">"Le tapis qui leur apprend où ils habitent."</h2>
