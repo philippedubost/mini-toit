@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="images/miniarbre/ComfyUI_temp_kvcgs_00001_.webp" fetchpriority="high">
 <style>
 :root {
   --amber:        #D4891A;
@@ -304,11 +305,10 @@ footer{background:var(--dark);color:rgba(255,255,255,.55);padding:48px 24px 28px
     </div>
     <div class="hero-visual reveal-right">
       <div class="hero-img-wrap">
-        <!-- placeholder: images/miniarbre/hero.webp -->
-        <div style="width:100%;height:460px;background:linear-gradient(160deg,var(--amber-pale),var(--paper),var(--forest-pale));display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px">
-          <div style="font-size:3rem">🌳</div>
-          <div style="font-family:'Quicksand',sans-serif;font-size:.9rem;font-weight:700;color:var(--bark-light);text-align:center">Photo produit<br>à venir</div>
-        </div>
+        <picture>
+          <source srcset="images/miniarbre/ComfyUI_temp_kvcgs_00001_.webp" type="image/webp">
+          <img src="images/miniarbre/ComfyUI_temp_kvcgs_00001_.webp" alt="Arbre généalogique MiniArbre accroché au mur d'un appartement" loading="eager" decoding="sync" fetchpriority="high">
+        </picture>
       </div>
       <div class="hero-badge"><div class="badge-num">7J</div><div class="badge-label">livraison</div></div>
       <div class="hero-badge2">
@@ -360,8 +360,10 @@ footer{background:var(--dark);color:rgba(255,255,255,.55);padding:48px 24px 28px
     <div class="features-grid">
       <div class="reveal-left">
         <div class="feature-img">
-          <!-- placeholder: images/miniarbre/outil.webp -->
-          <div class="feature-img-placeholder"><div class="pi">🌐</div><p>Capture d'écran<br>de l'outil en ligne<br>à venir</p></div>
+          <picture>
+            <source srcset="images/miniarbre/ComfyUI_temp_nkpil_00001_.webp" type="image/webp">
+            <img src="images/miniarbre/ComfyUI_temp_nkpil_00001_.webp" alt="Outil de design d'arbre généalogique sur tablette avec modèle 3D bois" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;border-radius:var(--r-lg)">
+          </picture>
         </div>
       </div>
       <div class="reveal-right">
@@ -389,7 +391,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.55);padding:48px 24px 28px
     </div>
     <div class="pricing-grid">
       <div class="pricing-card reveal" style="transition-delay:.0s" data-tilt>
-        <div class="pricing-preview"><div style="width:100%;height:100%;background:var(--paper);display:flex;align-items:center;justify-content:center;font-size:2rem">🌱</div></div>
+        <div class="pricing-preview"><picture><source srcset="images/miniarbre/ComfyUI_temp_zybzb_00001_.webp" type="image/webp"><img src="images/miniarbre/ComfyUI_temp_zybzb_00001_.webp" alt="Détail médaillon personnalisé MiniArbre" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover"></picture></div>
         <div class="pricing-size">S</div>
         <div class="pricing-name">Le Duo</div>
         <div class="pricing-dim">2 générations · jusqu'à 8 membres</div>
@@ -399,7 +401,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.55);padding:48px 24px 28px
         <button class="pricing-btn pricing-btn-outline">Choisir le Duo</button>
       </div>
       <div class="pricing-card featured reveal" style="transition-delay:.12s" data-tilt>
-        <div class="pricing-preview"><div style="width:100%;height:100%;background:var(--amber-pale);display:flex;align-items:center;justify-content:center;font-size:2.5rem">🌳</div></div>
+        <div class="pricing-preview"><picture><source srcset="images/miniarbre/ComfyUI_temp_racxm_00001_.webp" type="image/webp"><img src="images/miniarbre/ComfyUI_temp_racxm_00001_.webp" alt="Arbre généalogique MiniArbre avec portraits gravés" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover"></picture></div>
         <div class="pricing-size">M</div>
         <div class="pricing-name">La Tribu</div>
         <div class="pricing-dim">3 générations · jusqu'à 20 membres</div>
@@ -409,7 +411,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.55);padding:48px 24px 28px
         <button class="pricing-btn pricing-btn-filled">CRÉER MON MINIARBRE</button>
       </div>
       <div class="pricing-card reveal" style="transition-delay:.24s" data-tilt>
-        <div class="pricing-preview"><div style="width:100%;height:100%;background:var(--forest-pale);display:flex;align-items:center;justify-content:center;font-size:3rem">🌲</div></div>
+        <div class="pricing-preview"><picture><source srcset="images/miniarbre/ComfyUI_temp_ieexh_00001_.webp" type="image/webp"><img src="images/miniarbre/ComfyUI_temp_ieexh_00001_.webp" alt="Coffret MiniArbre taille L emballage kraft" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover"></picture></div>
         <div class="pricing-size">L</div>
         <div class="pricing-name">La Saga</div>
         <div class="pricing-dim">5 générations · membres illimités</div>
@@ -424,7 +426,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.55);padding:48px 24px 28px
 
 <!-- EMOTION -->
 <section id="emotion">
-  <div class="emotion-bg" style="background-color:var(--dark)"></div>
+  <div class="emotion-bg" style="background-image:url('images/miniarbre/ComfyUI_temp_kvcgs_00001_.webp');background-size:cover;background-position:center;opacity:.18"></div>
   <div class="emotion-inner">
     <span class="display-tag reveal">Pour transmettre</span>
     <h2 class="reveal">"Un objet qui traverse les générations."</h2>

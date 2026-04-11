@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="images/minichemin/ComfyUI_temp_rgztr_00001_.webp" fetchpriority="high">
 <style>
   :root {
     --teal:       #2A7F7F;
@@ -559,45 +560,10 @@
     </div>
   </div>
   <div class="hero-visual">
-    <div class="board-preview">
-      <div style="position:relative">
-        <div class="board">
-          <div class="board-path">
-            <!-- Row 1: top path left to right -->
-            <div class="board-cell cell-start"><div class="cell-num">1</div>🏠</div>
-            <div class="board-cell cell-road"><div class="cell-num">2</div>↗</div>
-            <div class="board-cell cell-bakery"><div class="cell-num">3</div>🥖</div>
-            <div class="board-cell cell-road"><div class="cell-num">4</div>→</div>
-            <div class="board-cell cell-park"><div class="cell-num">5</div>🌳</div>
-            <!-- Row 2: right side going down -->
-            <div class="board-cell cell-road"><div class="cell-num">16</div>↑</div>
-            <div class="board-cell" style="background:transparent;border:none"></div>
-            <div class="board-cell" style="background:transparent;border:none"></div>
-            <div class="board-cell" style="background:transparent;border:none"></div>
-            <div class="board-cell cell-road"><div class="cell-num">6</div>↓</div>
-            <!-- Row 3: middle -->
-            <div class="board-cell cell-church"><div class="cell-num">15</div>⛪</div>
-            <div class="board-cell" style="background:transparent;border:none"></div>
-            <div class="board-cell" style="background:rgba(42,127,127,.05);border:1px dashed rgba(42,127,127,.2);font-size:.55rem;color:var(--ink-soft)">Votre quartier</div>
-            <div class="board-cell" style="background:transparent;border:none"></div>
-            <div class="board-cell cell-road"><div class="cell-num">7</div>↓</div>
-            <!-- Row 4: left side going up -->
-            <div class="board-cell cell-road"><div class="cell-num">14</div>↑</div>
-            <div class="board-cell" style="background:transparent;border:none"></div>
-            <div class="board-cell" style="background:transparent;border:none"></div>
-            <div class="board-cell" style="background:transparent;border:none"></div>
-            <div class="board-cell cell-road"><div class="cell-num">8</div>↓</div>
-            <!-- Row 5: bottom path right to left -->
-            <div class="board-cell cell-road"><div class="cell-num">13</div>←</div>
-            <div class="board-cell cell-road"><div class="cell-num">12</div>←</div>
-            <div class="board-cell cell-road"><div class="cell-num">11</div>←</div>
-            <div class="board-cell cell-road"><div class="cell-num">10</div>←</div>
-            <div class="board-cell cell-end"><div class="cell-num">9</div>🏫</div>
-          </div>
-        </div>
-        <div class="board-tag">MiniChemin de Lucie</div>
-      </div>
-    </div>
+    <picture>
+      <source srcset="images/minichemin/ComfyUI_temp_rgztr_00001_.webp" type="image/webp">
+      <img src="images/minichemin/ComfyUI_temp_rgztr_00001_.webp" alt="Famille jouant au jeu de plateau MiniChemin dans leur salon à Nantes" loading="eager" decoding="sync" fetchpriority="high">
+    </picture>
   </div>
 </section>
 
@@ -665,12 +631,11 @@
 <section class="example-section" id="exemple">
   <div class="section-inner">
     <div class="example-grid">
-      <div class="example-board-wrap reveal">
-        <div class="placeholder-label">
-          <span>🎲</span>
-          <span>Exemple de plateau</span>
-          <small style="opacity:.6;font-size:.75rem">Photo du produit</small>
-        </div>
+      <div class="example-board-wrap reveal" style="border:none;padding:0;overflow:hidden">
+        <picture>
+          <source srcset="images/minichemin/ComfyUI_temp_srars_00001_.webp" type="image/webp">
+          <img src="images/minichemin/ComfyUI_temp_srars_00001_.webp" alt="Plateau de jeu MiniChemin en bois avec pions et dés" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;border-radius:22px">
+        </picture>
       </div>
       <div>
         <div class="section-label">Ce qui figure sur le plateau</div>
@@ -717,21 +682,17 @@
     <h2 class="section-title">Des chemins uniques,<br>des jeux qui durent</h2>
     <p class="section-sub">Chaque plateau est différent, parce que chaque quartier est différent. Voici quelques exemples de ce qui sort de notre atelier.</p>
     <div class="boards-grid">
-      <div class="board-thumb reveal">
-        <div class="thumb-icon">🗺️</div>
-        <span>Chemin de Lucie</span>
+      <div class="board-thumb reveal" style="border:none">
+        <picture><source srcset="images/minichemin/ComfyUI_temp_axihh_00001_.webp" type="image/webp"><img src="images/minichemin/ComfyUI_temp_axihh_00001_.webp" alt="Google Maps à gauche, plateau de jeu MiniChemin à droite" loading="lazy" decoding="async"></picture>
       </div>
-      <div class="board-thumb reveal">
-        <div class="thumb-icon">🗺️</div>
-        <span>Chemin de Noah</span>
+      <div class="board-thumb reveal" style="border:none">
+        <picture><source srcset="images/minichemin/ComfyUI_temp_srars_00001_.webp" type="image/webp"><img src="images/minichemin/ComfyUI_temp_srars_00001_.webp" alt="Plateau MiniChemin bois avec chemins colorés et miniatures" loading="lazy" decoding="async"></picture>
       </div>
-      <div class="board-thumb reveal">
-        <div class="thumb-icon">🗺️</div>
-        <span>Chemin de Lena</span>
+      <div class="board-thumb reveal" style="border:none">
+        <picture><source srcset="images/minichemin/ComfyUI_temp_rocck_00001_.webp" type="image/webp"><img src="images/minichemin/ComfyUI_temp_rocck_00001_.webp" alt="Tube kraft MiniChemin Size L" loading="lazy" decoding="async"></picture>
       </div>
-      <div class="board-thumb reveal">
-        <div class="thumb-icon">🗺️</div>
-        <span>Chemin de Jules</span>
+      <div class="board-thumb reveal" style="border:none">
+        <picture><source srcset="images/minichemin/ComfyUI_temp_rgztr_00001_.webp" type="image/webp"><img src="images/minichemin/ComfyUI_temp_rgztr_00001_.webp" alt="Famille jouant au MiniChemin dans le salon" loading="lazy" decoding="async"></picture>
       </div>
     </div>
   </div>
@@ -794,7 +755,7 @@
 
 <!-- EMOTION -->
 <section class="emotion-section">
-  <div class="emotion-bg" style="background-image: url('images/minichemin/emotion.webp')"></div>
+  <div class="emotion-bg" style="background-image: url('images/minichemin/ComfyUI_temp_rgztr_00001_.webp')"></div>
   <div class="section-inner emotion-inner">
     <div class="section-label">Ce qu'ils en disent</div>
     <h2 class="section-title">Un jeu qui devient<br>un trésor de famille</h2>
