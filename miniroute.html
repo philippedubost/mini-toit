@@ -383,8 +383,8 @@ nav.scrolled {
   margin-top: 64px; border-radius: var(--r-xl); overflow: hidden;
   display: grid; grid-template-columns: 1fr 1fr; background: var(--dark);
 }
-.map-showcase-visual { position: relative; height: 360px; }
-.map-showcase-visual img { width: 100%; height: 100%; object-fit: cover; }
+.map-showcase-visual { position: relative; height: 360px; overflow: hidden; }
+.map-showcase-visual img { width: 100%; height: 110%; object-fit: cover; object-position: center 20%; margin-top: -5%; }
 .map-showcase-visual::after {
   content: ''; position: absolute; inset: 0;
   background: linear-gradient(90deg, transparent 55%, var(--dark));
@@ -958,7 +958,7 @@ footer { background: var(--dark); color: rgba(255,255,255,.55); padding: 64px 24
 
 <!-- ═══════════════ EMOTION ═══════════════ -->
 <section id="emotion">
-  <div class="emotion-bg" style="background-image:url('images/mini-route/kidplaying.webp');background-size:cover;background-position:center 30%"></div>
+  <div class="emotion-bg" style="background-image:url('images/mini-route/noel.webp');background-size:cover;background-position:center 30%"></div>
   <div class="emotion-inner">
     <span class="display-tag reveal">Pour les grands enfants aussi</span>
     <h2 class="reveal">"Le tapis qui leur apprend où ils habitent."</h2>
@@ -983,23 +983,16 @@ footer { background: var(--dark); color: rgba(255,255,255,.55); padding: 64px 24
   </div>
 </section>
 
-<!-- ═══════════════ COUSIN BANNER ═══════════════ -->
-<div class="cousin-banner">
-  <div class="cousin-inner container">
-    <a href="index.html" class="cousin-card">
-      <div class="cousin-icon" style="background:#EDE0CE">🏠</div>
-      <div class="cousin-text">
-        <h4>MiniToit</h4>
-        <p>Votre maison en maquette bois découpée au laser. Fenêtres et portes fonctionnelles.</p>
-      </div>
-    </a>
-    <div class="cousin-divider">Produits<br>cousins</div>
-    <div class="cousin-card active">
-      <div class="cousin-icon" style="background:var(--grass-pale)">🗺️</div>
-      <div class="cousin-text">
-        <h4>MiniRoute <span style="font-size:.7rem;background:var(--grass);color:white;padding:2px 8px;border-radius:100px;font-weight:700;vertical-align:middle">Vous êtes ici</span></h4>
-        <p>Votre quartier en tapis de jeu imprimé depuis Google Maps.</p>
-      </div>
+<!-- ═══════════════ FAMILY NAV ═══════════════ -->
+<div style="background:var(--white);border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;padding:36px 24px">
+  <div style="max-width:1160px;margin:0 auto">
+    <div style="font-family:'Quicksand',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:20px">La famille Mini</div>
+    <div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;justify-content:center;flex-wrap:wrap">
+      <a href="index.html"     style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:var(--r-md);border:1.5px solid #E5E7EB;text-decoration:none;white-space:nowrap;transition:border-color .3s,transform .3s;flex-shrink:0" onmouseover="this.style.borderColor='#C4A882';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#E5E7EB';this.style.transform=''"><span style="font-size:1.2rem">🏠</span><div><div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:.85rem;color:#2A2520">MiniToit</div><div style="font-size:.7rem;color:#9A8F88">Maquette bois</div></div></a>
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:var(--r-md);border:2px solid var(--grass);background:var(--grass-pale);white-space:nowrap;flex-shrink:0"><span style="font-size:1.2rem">🗺️</span><div><div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:.85rem;color:var(--dark)">MiniRoute <span style="font-size:.62rem;background:var(--grass);color:white;padding:1px 7px;border-radius:100px;vertical-align:middle">ici</span></div><div style="font-size:.7rem;color:var(--muted)">Tapis de quartier</div></div></div>
+      <a href="miniarbre.html" style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:var(--r-md);border:1.5px solid #E5E7EB;text-decoration:none;white-space:nowrap;transition:border-color .3s,transform .3s;flex-shrink:0" onmouseover="this.style.borderColor='#D4891A';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#E5E7EB';this.style.transform=''"><span style="font-size:1.2rem">🌳</span><div><div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:.85rem;color:#2A2520">MiniArbre</div><div style="font-size:.7rem;color:#9A8F88">Arbre généalogique</div></div></a>
+      <a href="minitribu.html" style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:var(--r-md);border:1.5px solid #E5E7EB;text-decoration:none;white-space:nowrap;transition:border-color .3s,transform .3s;flex-shrink:0" onmouseover="this.style.borderColor='#C4705A';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#E5E7EB';this.style.transform=''"><span style="font-size:1.2rem">👨‍👩‍👧‍👦</span><div><div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:.85rem;color:#2A2520">MiniTribu</div><div style="font-size:.7rem;color:#9A8F88">Figurines laser</div></div></a>
+      <a href="minichemin.html" style="display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:var(--r-md);border:1.5px solid #E5E7EB;text-decoration:none;white-space:nowrap;transition:border-color .3s,transform .3s;flex-shrink:0" onmouseover="this.style.borderColor='#4ABFB0';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#E5E7EB';this.style.transform=''"><span style="font-size:1.2rem">🎲</span><div><div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:.85rem;color:#2A2520">MiniChemin</div><div style="font-size:.7rem;color:#9A8F88">Jeu de l'oie</div></div></a>
     </div>
   </div>
 </div>

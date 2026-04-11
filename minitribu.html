@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiniTribu — Vos silhouettes gravées dans le bois</title>
+<meta name="description" content="Transformez vos photos en figurines bois découpées au laser. Chaque membre de la famille immortalisé à l'identique, fabriqué à Nantes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --clay:       #C0684A;
+    --clay-light: #E8A088;
+    --clay-pale:  #FAF0EB;
+    --sand:       #D4A96A;
+    --sand-pale:  #FBF5EA;
+    --linen:      #F2E8D9;
+    --bark:       #7A5C38;
+    --bark-dark:  #4A3520;
+    --forest:     #3A7D44;
+    --white:      #FFFDF9;
+    --text:       #2C1F14;
+    --text-soft:  #7A6858;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── FAMILY STRIP ─── */
+  .family-strip {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 3px; z-index: 1001;
+    background: linear-gradient(90deg,
+      #C8A96E 0%, #C8A96E 20%,
+      #4A9B5E 20%, #4A9B5E 40%,
+      #C0684A 40%, #C0684A 60%,
+      #4A90D9 60%, #4A90D9 80%,
+      #F5C518 80%, #F5C518 100%
+    );
+  }
+
+  /* ─── SCROLL PROGRESS ─── */
+  .scroll-progress {
+    position: fixed; top: 3px; left: 0; height: 2px;
+    background: var(--clay); width: 0%; z-index: 1000;
+    transition: width .1s linear;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 3px; left: 0; right: 0;
+    background: rgba(255,253,249,.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(192,104,74,.15);
+    z-index: 999; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; font-weight: 700;
+    color: var(--clay); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    font-size: .875rem; font-weight: 600;
+    color: var(--text-soft); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--clay); }
+  .nav-cta {
+    background: var(--clay); color: #fff !important;
+    padding: 8px 20px; border-radius: 24px;
+    transition: background .2s, transform .15s !important;
+  }
+  .nav-cta:hover { background: var(--bark) !important; transform: translateY(-1px); }
+  @media(max-width:640px){ .nav-links a:not(.nav-cta){ display:none; } }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding-top: 63px;
+    min-height: 100svh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--linen);
+  }
+  .hero-content {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 64px 56px 64px 48px;
+    gap: 28px;
+  }
+  .hero-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--clay-pale); border: 1px solid var(--clay-light);
+    color: var(--clay); font-weight: 700; font-size: .75rem;
+    padding: 6px 14px; border-radius: 20px; width: fit-content;
+    letter-spacing: .06em; text-transform: uppercase;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    line-height: 1.18; color: var(--bark-dark);
+  }
+  h1 em { font-style: italic; color: var(--clay); }
+  .hero-sub {
+    font-size: 1.1rem; line-height: 1.7;
+    color: var(--text-soft); max-width: 420px;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--clay); color: #fff;
+    padding: 14px 32px; border-radius: 32px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700; font-size: 1rem;
+    border: none; cursor: pointer;
+    transition: background .2s, transform .15s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--bark); transform: translateY(-2px); }
+  .btn-secondary {
+    background: transparent; color: var(--clay);
+    padding: 14px 28px; border-radius: 32px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700; font-size: 1rem;
+    border: 2px solid var(--clay-light); cursor: pointer;
+    transition: border-color .2s, transform .15s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-secondary:hover { border-color: var(--clay); transform: translateY(-2px); }
+  .hero-badges { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-badge {
+    background: var(--white); border: 1px solid rgba(192,104,74,.2);
+    border-radius: 20px; padding: 6px 14px;
+    font-size: .78rem; font-weight: 600; color: var(--text-soft);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+
+  .hero-visual {
+    background: var(--clay-pale);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; min-height: 400px;
+  }
+  .hero-visual img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center;
+    display: block;
+  }
+  /* CSS figurine placeholders */
+  .figurine-preview {
+    display: flex; align-items: flex-end; gap: 16px;
+    justify-content: center; padding: 48px 32px;
+    position: relative;
+  }
+  .figurine {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    animation: figFloat 3s ease-in-out infinite;
+  }
+  .figurine:nth-child(2) { animation-delay: .5s; }
+  .figurine:nth-child(3) { animation-delay: 1s; }
+  .figurine:nth-child(4) { animation-delay: 1.5s; }
+  .fig-head {
+    border-radius: 50%; background: var(--clay-light);
+    border: 2px solid var(--clay);
+  }
+  .fig-body {
+    border-radius: 4px 4px 0 0; background: var(--clay);
+  }
+  .fig-legs {
+    display: flex; gap: 3px;
+  }
+  .fig-leg {
+    width: 8px; border-radius: 0 0 3px 3px; background: var(--bark);
+  }
+  .fig-label {
+    font-size: .65rem; font-weight: 700; color: var(--bark);
+    margin-top: 6px;
+  }
+  /* Adult */
+  .fig-adult .fig-head { width: 26px; height: 26px; }
+  .fig-adult .fig-body { width: 22px; height: 36px; }
+  .fig-adult .fig-leg { height: 30px; }
+  /* Child */
+  .fig-child .fig-head { width: 20px; height: 20px; }
+  .fig-child .fig-body { width: 17px; height: 26px; }
+  .fig-child .fig-leg { height: 22px; }
+  /* Toddler */
+  .fig-toddler .fig-head { width: 16px; height: 16px; }
+  .fig-toddler .fig-body { width: 13px; height: 18px; }
+  .fig-toddler .fig-leg { height: 14px; width: 6px; }
+  .figurine-base {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    width: 200px; height: 6px;
+    background: var(--bark); border-radius: 3px;
+    opacity: .4;
+  }
+  .figurine-tag {
+    position: absolute; top: 20px; right: 20px;
+    background: var(--clay); color: #fff;
+    font-size: .7rem; font-weight: 700;
+    padding: 4px 12px; border-radius: 12px;
+    letter-spacing: .04em;
+  }
+  @keyframes figFloat {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  @media(max-width:768px){
+    .hero { grid-template-columns: 1fr; }
+    .hero-visual { order: -1; min-height: 300px; }
+    .hero-content { padding: 40px 24px; }
+  }
+
+  /* ─── TICKER ─── */
+  .ticker-wrap {
+    background: var(--clay); color: #fff;
+    overflow: hidden; height: 38px; display: flex; align-items: center;
+  }
+  .ticker-track {
+    display: flex; gap: 0;
+    animation: ticker 28s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-item {
+    font-size: .82rem; font-weight: 600;
+    padding: 0 32px; letter-spacing: .04em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .ticker-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--clay-light); }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 96px 24px; }
+  .section-inner { max-width: 1120px; margin: 0 auto; }
+  .section-label {
+    font-size: .75rem; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--clay);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    line-height: 1.22; color: var(--bark-dark);
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 1.05rem; line-height: 1.7;
+    color: var(--text-soft); max-width: 560px;
+  }
+
+  /* ─── HOW IT WORKS ─── */
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px; margin-top: 56px;
+  }
+  .how-card {
+    background: var(--white); border: 1px solid rgba(192,104,74,.12);
+    border-radius: 20px; padding: 36px 28px;
+    transition: transform .3s, box-shadow .3s;
+    opacity: 0; transform: translateY(24px);
+  }
+  .how-card.visible { opacity: 1; transform: none; transition: opacity .5s, transform .5s; }
+  .how-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(192,104,74,.12); }
+  .how-num {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--clay); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1.1rem; margin-bottom: 20px;
+  }
+  .how-card h3 { font-weight: 700; font-size: 1.05rem; margin-bottom: 10px; }
+  .how-card p { font-size: .9rem; line-height: 1.6; color: var(--text-soft); }
+
+  /* ─── GALLERY PLACEHOLDER ─── */
+  .gallery-section { background: var(--linen); }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px; margin-top: 48px;
+  }
+  .gallery-card {
+    background: var(--clay-pale); border-radius: 16px;
+    aspect-ratio: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 10px;
+    border: 2px dashed var(--clay-light);
+    color: var(--clay); font-weight: 600; font-size: .85rem;
+    opacity: 0; transform: scale(.96);
+    transition: opacity .5s, transform .5s;
+  }
+  .gallery-card.visible { opacity: 1; transform: none; }
+  .gallery-card .gallery-icon { font-size: 2rem; }
+  .gallery-card img {
+    width: 100%; height: 100%; object-fit: cover; border-radius: 14px;
+  }
+
+  /* ─── FEATURES ─── */
+  .features-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 48px; margin-top: 64px;
+    align-items: center;
+  }
+  .feature-list { display: flex; flex-direction: column; gap: 28px; }
+  .feature-item { display: flex; gap: 18px; align-items: flex-start; }
+  .feature-icon {
+    width: 48px; height: 48px; border-radius: 14px;
+    background: var(--clay-pale); display: flex;
+    align-items: center; justify-content: center;
+    font-size: 1.4rem; flex-shrink: 0;
+  }
+  .feature-item h3 { font-weight: 700; margin-bottom: 4px; }
+  .feature-item p { font-size: .9rem; color: var(--text-soft); line-height: 1.6; }
+  .features-visual {
+    background: var(--clay-pale); border-radius: 24px;
+    min-height: 360px; display: flex; align-items: center;
+    justify-content: center; overflow: hidden;
+    border: 2px dashed var(--clay-light);
+    color: var(--clay); font-weight: 600;
+    flex-direction: column; gap: 8px;
+  }
+  .features-visual .gallery-icon { font-size: 3rem; }
+  .features-visual img {
+    width: 100%; height: 100%; object-fit: cover; border-radius: 22px;
+  }
+  @media(max-width:768px){ .features-grid { grid-template-columns: 1fr; } }
+
+  /* ─── PRICING ─── */
+  .pricing-section { background: var(--linen); }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px; margin-top: 56px;
+  }
+  .pricing-card {
+    background: var(--white); border-radius: 24px;
+    padding: 36px 32px;
+    border: 1.5px solid rgba(192,104,74,.15);
+    position: relative; overflow: hidden;
+    transition: transform .25s, box-shadow .25s;
+    transform-style: preserve-3d;
+  }
+  .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(122,92,56,.14); }
+  .pricing-card.featured {
+    border-color: var(--clay);
+    box-shadow: 0 8px 32px rgba(192,104,74,.2);
+  }
+  .pricing-card.featured::after {
+    content: 'Le plus populaire';
+    position: absolute;
+    background: var(--clay); color: #fff;
+    font-size: .68rem; font-weight: 700;
+    letter-spacing: .06em; text-transform: uppercase;
+    width: 120px; text-align: center;
+    top: 22px; right: -28px;
+    padding: 5px 0;
+    transform: rotate(45deg);
+    transform-origin: center;
+  }
+  .pricing-name { font-weight: 700; font-size: 1rem; margin-bottom: 4px; color: var(--clay); }
+  .pricing-desc { font-size: .85rem; color: var(--text-soft); margin-bottom: 24px; }
+  .pricing-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem; color: var(--bark-dark);
+    margin-bottom: 4px; line-height: 1;
+  }
+  .pricing-price span { font-size: 1.1rem; font-family: 'Quicksand', sans-serif; }
+  .pricing-sub { font-size: .82rem; color: var(--text-soft); margin-bottom: 28px; }
+  .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+  .pricing-features li {
+    font-size: .88rem; display: flex; gap: 10px; align-items: flex-start;
+  }
+  .pricing-features li::before { content: '✓'; color: var(--clay); font-weight: 700; flex-shrink: 0; }
+  .pricing-card .btn-primary { width: 100%; text-align: center; }
+  .pricing-card .btn-secondary { width: 100%; text-align: center; }
+
+  /* ─── EMOTION ─── */
+  .emotion-section {
+    background: var(--bark-dark); color: var(--linen);
+    position: relative; overflow: hidden;
+  }
+  .emotion-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: .18;
+  }
+  .emotion-inner {
+    position: relative; z-index: 1;
+    max-width: 720px; margin: 0 auto; text-align: center;
+  }
+  .emotion-section .section-title { color: var(--linen); }
+  .emotion-section .section-label { color: var(--clay-light); }
+  .testimonials { display: flex; flex-direction: column; gap: 20px; margin-top: 48px; }
+  .testimonial {
+    background: rgba(255,255,255,.07); border-radius: 16px;
+    padding: 24px 28px; text-align: left;
+    border: 1px solid rgba(255,255,255,.1);
+  }
+  .testimonial p { font-size: .95rem; line-height: 1.7; font-style: italic; margin-bottom: 12px; }
+  .testimonial-author { font-weight: 700; font-size: .82rem; color: var(--clay-light); }
+
+  /* ─── FAMILY NAV ─── */
+  .family-nav-section {
+    background: var(--white);
+    border-top: 1px solid rgba(192,104,74,.12);
+    padding: 48px 24px;
+  }
+  .family-nav-inner { max-width: 800px; margin: 0 auto; text-align: center; }
+  .family-nav-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; color: var(--text-soft);
+    margin-bottom: 20px;
+  }
+  .family-pills {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  }
+  .family-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 20px; border-radius: 24px;
+    font-weight: 600; font-size: .88rem;
+    text-decoration: none; transition: transform .2s;
+    border: 1.5px solid rgba(0,0,0,.1);
+    color: var(--text-soft); background: var(--white);
+  }
+  .family-pill:hover { transform: translateY(-2px); }
+  .family-pill.active {
+    background: var(--clay); color: #fff;
+    border-color: var(--clay);
+  }
+  .family-pill.active span.here {
+    background: rgba(255,255,255,.25); border-radius: 10px;
+    padding: 1px 7px; font-size: .72rem;
+  }
+
+  /* ─── FAQ ─── */
+  .faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 12px; }
+  .faq-item {
+    background: var(--white); border: 1px solid rgba(192,104,74,.12);
+    border-radius: 16px; overflow: hidden;
+    opacity: 0; transform: translateY(12px);
+  }
+  .faq-item.visible { opacity: 1; transform: none; transition: opacity .4s, transform .4s; }
+  .faq-q {
+    width: 100%; background: none; border: none;
+    padding: 20px 24px; text-align: left;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700; font-size: 1rem; color: var(--text);
+    cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+  }
+  .faq-q::after { content: '+'; font-size: 1.3rem; color: var(--clay); transition: transform .25s; }
+  .faq-item.open .faq-q::after { transform: rotate(45deg); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height .35s ease, padding .35s;
+    font-size: .9rem; line-height: 1.7; color: var(--text-soft);
+    padding: 0 24px;
+  }
+  .faq-item.open .faq-a { max-height: 200px; padding: 0 24px 20px; }
+
+  /* ─── CTA ─── */
+  .cta-section {
+    background: linear-gradient(135deg, var(--clay) 0%, var(--bark) 100%);
+    color: #fff; text-align: center;
+  }
+  .cta-section .section-title { color: #fff; }
+  .cta-section .section-sub { color: rgba(255,255,255,.8); margin: 0 auto 32px; }
+  .btn-white {
+    background: #fff; color: var(--clay);
+    padding: 16px 40px; border-radius: 32px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700; font-size: 1.05rem;
+    border: none; cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--bark-dark); color: rgba(255,255,255,.55);
+    text-align: center; padding: 32px 24px;
+    font-size: .82rem; line-height: 1.8;
+  }
+  footer a { color: var(--clay-light); text-decoration: none; }
+
+  /* ─── UPLOAD MODAL ─── */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(44,31,20,.7);
+    z-index: 2000; display: none; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--white); border-radius: 24px;
+    padding: 48px 40px; max-width: 480px; width: 100%;
+    text-align: center; position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 20px;
+    background: none; border: none; font-size: 1.5rem;
+    cursor: pointer; color: var(--text-soft);
+  }
+  .modal h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; margin-bottom: 8px;
+  }
+  .modal p { color: var(--text-soft); font-size: .9rem; line-height: 1.6; margin-bottom: 24px; }
+  .upload-zone {
+    border: 2px dashed var(--clay-light); border-radius: 16px;
+    padding: 40px 24px; margin-bottom: 20px;
+    cursor: pointer; transition: border-color .2s, background .2s;
+  }
+  .upload-zone:hover { border-color: var(--clay); background: var(--clay-pale); }
+  .upload-zone .upload-icon { font-size: 2.5rem; margin-bottom: 8px; }
+  .upload-zone p { margin: 0; font-weight: 600; }
+  .upload-zone small { color: var(--text-soft); font-size: .82rem; }
+  input[type=file] { display: none; }
+</style>
+</head>
+<body>
+
+<div class="family-strip"></div>
+<div class="scroll-progress" id="scrollBar"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="index.html">🏠 MiniToit</a>
+  <div class="nav-links">
+    <a href="#comment">Comment ça marche</a>
+    <a href="#tarifs">Tarifs</a>
+    <a href="#faq">FAQ</a>
+    <a href="#commander" class="nav-cta">Commander</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-label">👨‍👩‍👧 La famille en bois</div>
+    <h1>Vos proches <em>sculptés</em><br>dans le bois</h1>
+    <p class="hero-sub">
+      Envoyez-nous vos photos, on découpe chaque silhouette au laser avec une précision au millimètre.
+      Une tribu de figurines bois qui vous ressemble vraiment.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openModal()">Commencer ma tribu</button>
+      <a href="#comment" class="btn-secondary">Voir comment ça marche</a>
+    </div>
+    <div class="hero-badges">
+      <div class="hero-badge">📦 Livraison sous 7J</div>
+      <div class="hero-badge">🇫🇷 Fabriqué à Nantes</div>
+      <div class="hero-badge">🌳 Bois de bouleau FSC</div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="figurine-preview">
+      <div class="figurine fig-adult">
+        <div class="fig-head"></div>
+        <div class="fig-body"></div>
+        <div class="fig-legs">
+          <div class="fig-leg"></div>
+          <div class="fig-leg"></div>
+        </div>
+        <div class="fig-label">Papa</div>
+      </div>
+      <div class="figurine fig-adult" style="animation-delay:.3s">
+        <div class="fig-head" style="background:var(--sand);border-color:var(--bark)"></div>
+        <div class="fig-body" style="background:var(--sand)"></div>
+        <div class="fig-legs">
+          <div class="fig-leg"></div>
+          <div class="fig-leg"></div>
+        </div>
+        <div class="fig-label">Maman</div>
+      </div>
+      <div class="figurine fig-child" style="animation-delay:.7s">
+        <div class="fig-head" style="background:var(--clay-light);border-color:var(--clay)"></div>
+        <div class="fig-body" style="background:var(--clay-light)"></div>
+        <div class="fig-legs">
+          <div class="fig-leg"></div>
+          <div class="fig-leg"></div>
+        </div>
+        <div class="fig-label">Léa</div>
+      </div>
+      <div class="figurine fig-toddler" style="animation-delay:1s">
+        <div class="fig-head" style="background:var(--sand-pale);border-color:var(--sand)"></div>
+        <div class="fig-body" style="background:var(--sand-pale)"></div>
+        <div class="fig-legs">
+          <div class="fig-leg"></div>
+          <div class="fig-leg"></div>
+        </div>
+        <div class="fig-label">Tom</div>
+      </div>
+    </div>
+    <div class="figurine-base"></div>
+    <div class="figurine-tag">Votre famille</div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <div class="ticker-item">👨‍👩‍👧‍👦 Plus de 300 familles immortalisées</div>
+    <div class="ticker-dot"></div>
+    <div class="ticker-item">🌳 Bois de bouleau français</div>
+    <div class="ticker-dot"></div>
+    <div class="ticker-item">✂️ Découpe laser précision 0,1 mm</div>
+    <div class="ticker-dot"></div>
+    <div class="ticker-item">🎁 Idée cadeau unique</div>
+    <div class="ticker-dot"></div>
+    <div class="ticker-item">📍 Atelier à Nantes</div>
+    <div class="ticker-dot"></div>
+    <div class="ticker-item">👨‍👩‍👧‍👦 Plus de 300 familles immortalisées</div>
+    <div class="ticker-dot"></div>
+    <div class="ticker-item">🌳 Bois de bouleau français</div>
+    <div class="ticker-dot"></div>
+    <div class="ticker-item">✂️ Découpe laser précision 0,1 mm</div>
+    <div class="ticker-dot"></div>
+    <div class="ticker-item">🎁 Idée cadeau unique</div>
+    <div class="ticker-dot"></div>
+    <div class="ticker-item">📍 Atelier à Nantes</div>
+    <div class="ticker-dot"></div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="comment">
+  <div class="section-inner">
+    <div class="section-label">Le processus</div>
+    <h2 class="section-title">De la photo<br>à la figurine</h2>
+    <p class="section-sub">
+      On s'occupe de tout. Vous envoyez vos photos, on s'occupe du reste
+      avec soin et précision dans notre atelier nantais.
+    </p>
+    <div class="how-grid">
+      <div class="how-card reveal">
+        <div class="how-num">1</div>
+        <h3>Vos photos</h3>
+        <p>Partagez-nous des photos de chaque membre de la famille — une photo de face suffit. Plus elle est nette, plus la silhouette sera fidèle.</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-num">2</div>
+        <h3>On dessine les silhouettes</h3>
+        <p>Notre atelier trace à la main les contours de chaque personnage pour capturer la posture, la coiffure, les détails qui vous rendent uniques.</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-num">3</div>
+        <h3>Découpe laser</h3>
+        <p>Chaque silhouette est découpée dans du bois de bouleau 6 mm à la précision du dixième de millimètre. Le bois naturel garde ses veines brutes.</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-num">4</div>
+        <h3>Votre tribu arrive</h3>
+        <p>Les figurines sont assemblées sur leur socle bois gravé de vos prénoms, emballées avec soin dans une boîte kraft et envoyées chez vous.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="section-inner">
+    <div class="section-label">Nos réalisations</div>
+    <h2 class="section-title">Chaque tribu est<br>une œuvre unique</h2>
+    <p class="section-sub">Petites familles, grandes familles, avec animaux de compagnie — chaque commande est taillée sur mesure.</p>
+    <div class="gallery-grid">
+      <div class="gallery-card reveal">
+        <div class="gallery-icon">🪵</div>
+        <span>Famille Dupont</span>
+      </div>
+      <div class="gallery-card reveal">
+        <div class="gallery-icon">🪵</div>
+        <span>Famille Martin</span>
+      </div>
+      <div class="gallery-card reveal">
+        <div class="gallery-icon">🪵</div>
+        <span>Famille Bernard</span>
+      </div>
+      <div class="gallery-card reveal">
+        <div class="gallery-icon">🪵</div>
+        <span>Famille Leroy</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="details">
+  <div class="section-inner">
+    <div class="features-grid">
+      <div class="feature-list">
+        <div class="section-label">Les détails qui comptent</div>
+        <h2 class="section-title">Fait avec<br>intention</h2>
+        <div class="feature-item">
+          <div class="feature-icon">🪵</div>
+          <div>
+            <h3>Bouleau FSC 6 mm</h3>
+            <p>Un bois dur, léger et durable. Ses veines naturelles rendent chaque figurine encore plus vivante.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">✍️</div>
+          <div>
+            <h3>Silhouettes dessinées à la main</h3>
+            <p>Pas de traitement automatique — un artisan retrace chaque contour pour que la ressemblance soit juste.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🐾</div>
+          <div>
+            <h3>Animaux de compagnie bienvenus</h3>
+            <p>Chat, chien, lapin — si c'est un membre de la famille, on peut le reproduire aussi.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🎁</div>
+          <div>
+            <h3>Emballage cadeau inclus</h3>
+            <p>Boîte kraft, papier de soie, carte personnalisée. Prêt à offrir, sans rien avoir à faire.</p>
+          </div>
+        </div>
+      </div>
+      <div class="features-visual reveal">
+        <div class="gallery-icon">📸</div>
+        <span>Photo du produit</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="tarifs" class="pricing-section">
+  <div class="section-inner">
+    <div class="section-label">Tarifs</div>
+    <h2 class="section-title">Choisissez votre<br>format de tribu</h2>
+    <p class="section-sub">Chaque format est fait main, dans notre atelier nantais. Les tailles s'adaptent à toutes les compositions familiales.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card reveal">
+        <div class="pricing-name">Le Duo</div>
+        <div class="pricing-desc">2 figurines · socle gravé · boîte kraft</div>
+        <div class="pricing-price">79<span>€</span></div>
+        <div class="pricing-sub">Livraison incluse · 7 jours ouvrés</div>
+        <ul class="pricing-features">
+          <li>2 silhouettes personnalisées</li>
+          <li>Socle bois gravé avec prénoms</li>
+          <li>Boîte kraft et papier de soie</li>
+          <li>Hauteur figurines ~12 cm</li>
+        </ul>
+        <button class="btn-secondary" onclick="openModal()">Commencer</button>
+      </div>
+      <div class="pricing-card featured reveal">
+        <div class="pricing-name">La Tribu</div>
+        <div class="pricing-desc">3 à 5 figurines · socle double · coffret</div>
+        <div class="pricing-price">129<span>€</span></div>
+        <div class="pricing-sub">Livraison incluse · 7 jours ouvrés</div>
+        <ul class="pricing-features">
+          <li>3 à 5 silhouettes personnalisées</li>
+          <li>Grand socle bois gravé</li>
+          <li>Coffret en bois recyclé</li>
+          <li>Carte personnalisée incluse</li>
+          <li>Option animal de compagnie +15€</li>
+        </ul>
+        <button class="btn-primary" onclick="openModal()">Commander ma tribu</button>
+      </div>
+      <div class="pricing-card reveal">
+        <div class="pricing-name">La Saga</div>
+        <div class="pricing-desc">6+ figurines · grand format · hors gabarit</div>
+        <div class="pricing-price">199<span>€</span></div>
+        <div class="pricing-sub">Livraison incluse · 10 jours ouvrés</div>
+        <ul class="pricing-features">
+          <li>6 figurines et plus</li>
+          <li>Grand socle panoramique</li>
+          <li>Finition vernis sur demande</li>
+          <li>Animaux de compagnie inclus</li>
+          <li>Plaque gravée personnalisée</li>
+        </ul>
+        <button class="btn-secondary" onclick="openModal()">Commencer</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EMOTION -->
+<section class="emotion-section">
+  <div class="emotion-bg" style="background-image: url('images/minitribu/emotion.webp')"></div>
+  <div class="section-inner emotion-inner">
+    <div class="section-label">Ce qu'ils en disent</div>
+    <h2 class="section-title">Des souvenirs<br>qui durent toujours</h2>
+    <div class="testimonials">
+      <div class="testimonial">
+        <p>« On a offert la MiniTribu à mes parents pour leurs 40 ans de mariage. Il y avait les 6 enfants et les 3 chiens. Ma mère a pleuré. C'est devenu la pièce centrale du salon. »</p>
+        <div class="testimonial-author">— Camille, Lyon</div>
+      </div>
+      <div class="testimonial">
+        <p>« La ressemblance est hallucinante. Ma fille de 4 ans a tout de suite reconnu chaque figurine. Elle les sort tous les soirs pour jouer avec sa famille en bois. »</p>
+        <div class="testimonial-author">— Julien, Bordeaux</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAMILY NAV -->
+<div class="family-nav-section">
+  <div class="family-nav-inner">
+    <div class="family-nav-title">La famille Mini</div>
+    <div class="family-pills">
+      <a href="index.html" class="family-pill">🏠 MiniToit</a>
+      <a href="miniroute.html" class="family-pill">🗺️ MiniRoute</a>
+      <a href="miniarbre.html" class="family-pill">🌳 MiniArbre</a>
+      <div class="family-pill active">👨‍👩‍👧‍👦 MiniTribu <span class="here">ici</span></div>
+      <a href="minichemin.html" class="family-pill">🎲 MiniChemin</a>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-inner" style="max-width:720px">
+    <div class="section-label">Questions fréquentes</div>
+    <h2 class="section-title">Tout ce que<br>vous voulez savoir</h2>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-q">Quelles photos faut-il envoyer ?</button>
+        <div class="faq-a">Une photo de face, bien éclairée, sur fond neutre de préférence. On peut travailler avec des photos de profil ou 3/4 si c'est tout ce que vous avez — mais plus la photo est nette, plus la ressemblance sera précise.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Puis-je ajouter un animal de compagnie ?</button>
+        <div class="faq-a">Oui, absolument ! Chats, chiens, lapins, même les poissons rouges si vous y tenez. Comptez +15€ par animal de compagnie supplémentaire.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Quelle est la taille des figurines ?</button>
+        <div class="faq-a">Les adultes font environ 12 cm de hauteur, les enfants entre 7 et 10 cm selon leur âge sur la photo. Tous sont proportionnels entre eux sur le même socle.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Puis-je voir un aperçu avant fabrication ?</button>
+        <div class="faq-a">Oui, on vous envoie toujours un visuel des silhouettes par email avant de lancer la découpe. Vous pouvez demander des ajustements avant validation.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">Est-ce que les figurines sont solides ?</button>
+        <div class="faq-a">Le bouleau 6 mm est un bois très robuste. Les figurines résistent aux manipulations quotidiennes. On déconseille juste les bains prolongés — le bois n'aime pas l'eau stagnante.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="commander" class="cta-section">
+  <div class="section-inner" style="text-align:center">
+    <div class="section-label" style="color:rgba(255,255,255,.6)">Prêt ?</div>
+    <h2 class="section-title">Créez votre tribu<br>en bois aujourd'hui</h2>
+    <p class="section-sub">Partagez vos photos, on s'occupe du reste. Livraison en 7 jours ouvrés.</p>
+    <button class="btn-white" onclick="openModal()">Envoyer mes photos</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>MiniTribu · <a href="index.html">La famille Mini</a> · Atelier artisanal à Nantes, France</p>
+  <p style="margin-top:6px"><a href="index.html">MiniToit</a> · <a href="miniroute.html">MiniRoute</a> · <a href="miniarbre.html">MiniArbre</a> · <a href="minichemin.html">MiniChemin</a></p>
+  <p style="margin-top:12px">© 2025 La famille Mini · Tous droits réservés</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h2>Créez votre MiniTribu</h2>
+    <p>Déposez vos photos ici. On vous envoie un aperçu des silhouettes avant de lancer la fabrication.</p>
+    <label>
+      <div class="upload-zone" id="dropZone">
+        <div class="upload-icon">📸</div>
+        <p>Glissez vos photos ici</p>
+        <small>ou cliquez pour parcourir · JPG, PNG · max 10 Mo par photo</small>
+      </div>
+      <input type="file" multiple accept="image/*" id="fileInput">
+    </label>
+    <button class="btn-primary" style="width:100%" onclick="closeModal()">Envoyer mes photos →</button>
+  </div>
+</div>
+
+<script>
+  // Scroll progress
+  const bar = document.getElementById('scrollBar');
+  window.addEventListener('scroll', () => {
+    const p = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    bar.style.width = (p * 100) + '%';
+  }, { passive: true });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: .12 });
+  reveals.forEach(el => io.observe(el));
+
+  // FAQ
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // Modal
+  function openModal() { document.getElementById('modal').classList.add('open'); }
+  function closeModal() { document.getElementById('modal').classList.remove('open'); }
+  document.getElementById('modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal')) closeModal();
+  });
+
+  // Pricing 3D tilt
+  document.querySelectorAll('.pricing-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5;
+      const y = (e.clientY - r.top) / r.height - .5;
+      card.style.transform = `perspective(600px) rotateX(${-y * 6}deg) rotateY(${x * 6}deg) translateY(-6px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+</script>
+</body>
+</html>
