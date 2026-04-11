@@ -830,7 +830,13 @@ footer a { color: var(--teal-light); text-decoration: none; }
 }
 .form-group textarea { resize: vertical; min-height: 80px; }
 
-  /* Mobile nav open state */
+  /* Mobile nav burger */
+  .nav-mobile-btn { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 40px; height: 40px; padding: 9px; background: none; border: none; cursor: pointer; border-radius: 8px; transition: background .2s; }
+  .nav-mobile-btn:hover { background: rgba(0,0,0,.06); }
+  .nav-mobile-btn span { display: block; width: 22px; height: 2px; background: #1A3333; border-radius: 2px; transform-origin: center; transition: transform .3s, opacity .3s; }
+  .nav-mobile-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-mobile-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .nav-mobile-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   @media (max-width: 640px) {
     .nav-links { display: none !important; }
     .nav-links.nav-open {
@@ -925,6 +931,7 @@ footer a { color: var(--teal-light); text-decoration: none; }
     <a href="#famille" class="nav-next-mini">Autres Créations</a>
     <a href="#commander" class="nav-cta">Commander</a>
   </div>
+  <button class="nav-mobile-btn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </nav>
 
 <!-- HERO -->
@@ -1470,27 +1477,19 @@ document.querySelectorAll('.pricing-card').forEach(card => {
 
 /* ── MOBILE NAV TOGGLE ── */
 (function(){
-  var btn = document.querySelector('.nav-mobile-btn') || document.querySelector('[id="nav-toggle"]');
+  var btn = document.querySelector('.nav-mobile-btn');
   var links = document.querySelector('.nav-links');
   if (!btn || !links) return;
-  // Ensure links hidden on mobile until opened
   btn.addEventListener('click', function(){
-    var isOpen = links.classList.contains('nav-open');
-    if (isOpen) {
-      links.classList.remove('nav-open');
-      btn.setAttribute('data-open','');
-      btn.innerHTML = btn._origHTML || btn.innerHTML;
-    } else {
-      if (!btn._origHTML) btn._origHTML = btn.innerHTML;
-      links.classList.add('nav-open');
-      btn.innerHTML = '<span style="font-size:1.3rem;line-height:1">&#10005;</span>';
-    }
+    var open = links.classList.toggle('nav-open');
+    btn.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', String(open));
   });
-  // Close on link click
   links.querySelectorAll('a').forEach(function(a){
     a.addEventListener('click', function(){
       links.classList.remove('nav-open');
-      if (btn._origHTML) btn.innerHTML = btn._origHTML;
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
     });
   });
 })();
