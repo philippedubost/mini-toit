@@ -10,546 +10,838 @@
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="images/minichemin/ComfyUI_temp_rgztr_00001_.webp" fetchpriority="high">
 <style>
-  :root {
-    --teal:       #2A7F7F;
-    --teal-light: #5ABABA;
-    --teal-pale:  #E8F5F5;
-    --kraft:      #C4956A;
-    --kraft-pale: #FBF3E8;
-    --card-bg:    #F0F7F7;
-    --ink:        #1A3333;
-    --ink-soft:   #5A7070;
-    --gold:       #D4A827;
-    --red:        #D44A3A;
-    --white:      #FDFFFE;
-    --linen:      #F5EDE0;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Montserrat', sans-serif;
-    background: var(--white);
-    color: var(--ink);
-    overflow-x: hidden;
-  }
+/* ── TOKENS ─────────────────────────────────────────────── */
+:root {
+  --teal:        #2A7F7F;
+  --teal-light:  #5ABABA;
+  --teal-pale:   #E8F5F5;
+  --teal-deep:   #1A5454;
+  --gold:        #C4956A;
+  --gold-pale:   #FBF3E8;
+  --forest:      #3A7A52;
+  --forest-light:#8BC4A4;
+  --forest-pale: #EBF4EC;
+  --cream:       #F7FCFC;
+  --board-bg:    #EEF7F7;
 
-  /* ─── FAMILY STRIP ─── */
-  .family-strip {
-    position: fixed; top: 0; left: 0; right: 0;
-    height: 3px; z-index: 1001;
-    background: linear-gradient(90deg,
-      #C8A96E 0%, #C8A96E 20%,
-      #4A9B5E 20%, #4A9B5E 40%,
-      #C0684A 40%, #C0684A 60%,
-      #4A90D9 60%, #4A90D9 80%,
-      #F5C518 80%, #F5C518 100%
-    );
-  }
+  --r-sm:  8px;
+  --r-md:  16px;
+  --r-lg:  24px;
+  --r-xl:  40px;
 
-  /* ─── SCROLL PROGRESS ─── */
-  .scroll-progress {
-    position: fixed; top: 3px; left: 0; height: 2px;
-    background: var(--teal); width: 0%; z-index: 1000;
-    transition: width .1s linear;
-  }
+  --sh-teal: 0 16px 48px rgba(42,127,127,.28);
+  --t:       .32s cubic-bezier(.4,0,.2,1);
+  --t-spring:.48s cubic-bezier(.34,1.56,.64,1);
+}
 
-  /* ─── NAV ─── */
-  nav {
-    position: fixed; top: 3px; left: 0; right: 0;
-    background: rgba(253,255,254,.94);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(42,127,127,.15);
-    z-index: 999; padding: 0 24px;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 60px;
-  }
-  .nav-brand {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 1.25rem; font-weight: 700;
-    color: var(--teal); text-decoration: none;
-  }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a {
-    font-size: .875rem; font-weight: 600;
-    color: var(--ink-soft); text-decoration: none;
-    transition: color .2s;
-  }
-  .nav-links a:hover { color: var(--teal); }
-  .nav-cta {
-    background: var(--teal); color: #fff !important;
-    padding: 8px 20px; border-radius: 24px;
-    transition: background .2s, transform .15s !important;
-  }
-  .nav-cta:hover { background: var(--ink) !important; transform: translateY(-1px); }
-  @media(max-width:640px){ .nav-links a:not(.nav-cta){ display:none; } }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--cream);
+  color: #1A3333;
+  overflow-x: hidden;
+}
 
-  /* ─── HERO ─── */
-  .hero {
-    padding-top: 63px;
-    min-height: 100svh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    background: var(--card-bg);
-  }
-  .hero-content {
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 64px 56px 64px 48px; gap: 28px;
-  }
-  .hero-label {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--teal-pale); border: 1px solid var(--teal-light);
-    color: var(--teal); font-weight: 700; font-size: .75rem;
-    padding: 6px 14px; border-radius: 20px; width: fit-content;
-    letter-spacing: .06em; text-transform: uppercase;
-  }
-  h1 {
-    font-family: 'Quicksand', sans-serif;
-    font-size: clamp(2.2rem, 4vw, 3.4rem);
-    line-height: 1.18; color: var(--ink);
-  }
-  h1 em { font-style: italic; color: var(--teal); }
-  .hero-sub {
-    font-size: 1.1rem; line-height: 1.7;
-    color: var(--ink-soft); max-width: 420px;
-  }
-  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
-  .btn-primary {
-    background: var(--teal); color: #fff;
-    padding: 14px 32px; border-radius: 32px;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: 700; font-size: 1rem;
-    border: none; cursor: pointer;
-    transition: background .2s, transform .15s;
-    text-decoration: none; display: inline-block;
-  }
-  .btn-primary:hover { background: var(--ink); transform: translateY(-2px); }
-  .btn-secondary {
-    background: transparent; color: var(--teal);
-    padding: 14px 28px; border-radius: 32px;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: 700; font-size: 1rem;
-    border: 2px solid var(--teal-light); cursor: pointer;
-    transition: border-color .2s, transform .15s;
-    text-decoration: none; display: inline-block;
-  }
-  .btn-secondary:hover { border-color: var(--teal); transform: translateY(-2px); }
-  .hero-badges { display: flex; gap: 12px; flex-wrap: wrap; }
-  .hero-badge {
-    background: var(--white); border: 1px solid rgba(42,127,127,.2);
-    border-radius: 20px; padding: 6px 14px;
-    font-size: .78rem; font-weight: 600; color: var(--ink-soft);
-    display: inline-flex; align-items: center; gap: 6px;
-  }
+/* ── SCROLL PROGRESS ─────────────────────────────────────── */
+.scroll-progress {
+  position: fixed; top: 0; left: 0;
+  height: 3px; width: 0%; z-index: 1001;
+  background: linear-gradient(90deg, var(--teal), var(--gold));
+  transition: width .1s linear;
+}
 
-  .hero-visual {
-    background: var(--teal-pale);
-    display: flex; align-items: center; justify-content: center;
-    position: relative; overflow: hidden; min-height: 400px;
-  }
-  .hero-visual img {
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: center;
-    display: block;
-  }
+/* ── NAV ──────────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 64px; z-index: 1000;
+  display: flex; align-items: center;
+  padding: 0 32px;
+  justify-content: space-between;
+  transition: background var(--t), box-shadow var(--t);
+}
+nav.scrolled {
+  background: rgba(247,252,252,.96);
+  backdrop-filter: blur(14px) saturate(1.6);
+  box-shadow: 0 1px 0 rgba(42,127,127,.12);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.nav-logo-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(42,127,127,.3);
+}
+.nav-logo span {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700; font-size: 1.1rem;
+  color: var(--teal);
+}
+.nav-logo span em { font-style: normal; color: #1A3333; }
+.nav-links {
+  display: flex; align-items: center; gap: 24px;
+}
+.nav-links a {
+  font-size: .85rem; font-weight: 600;
+  color: #5A7070; text-decoration: none;
+  transition: color var(--t);
+}
+.nav-links a:hover { color: var(--teal); }
+.nav-cta {
+  background: var(--teal) !important;
+  color: #fff !important;
+  padding: 9px 22px; border-radius: 100px;
+  font-weight: 700 !important;
+  transition: background var(--t), transform .15s !important;
+}
+.nav-cta:hover { background: var(--teal-deep) !important; transform: translateY(-1px); }
+.nav-next-mini {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 100px;
+  border: 1.5px solid rgba(42,127,127,.3);
+  font-size: .78rem !important; font-weight: 700 !important;
+  color: #1A3333 !important; text-decoration: none;
+  transition: border-color var(--t), color var(--t) !important;
+}
+.nav-next-mini:hover { border-color: var(--teal); color: var(--teal) !important; }
+@media (max-width: 640px) {
+  .nav-links a:not(.nav-cta):not(.nav-next-mini) { display: none; }
+}
 
-  /* CSS game board preview */
-  .board-preview {
-    padding: 32px; width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .board {
-    width: 320px; height: 320px;
-    background: var(--white); border-radius: 16px;
-    border: 2px solid var(--teal-light);
-    padding: 12px; position: relative;
-    box-shadow: 0 8px 32px rgba(42,127,127,.2);
-  }
-  .board-path {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    gap: 6px;
-    width: 100%; height: 100%;
-  }
-  .board-cell {
-    border-radius: 6px; display: flex;
-    align-items: center; justify-content: center;
-    font-size: .65rem; font-weight: 700;
-    position: relative; transition: transform .2s;
-  }
-  .board-cell:hover { transform: scale(1.08); }
-  .cell-num {
-    position: absolute; top: 2px; left: 4px;
-    font-size: .5rem; opacity: .6;
-  }
-  .cell-house { background: var(--kraft-pale); border: 2px solid var(--kraft); }
-  .cell-school { background: #FFF3E0; border: 2px solid #F59E0B; }
-  .cell-park { background: #E8F5E9; border: 2px solid #4CAF50; }
-  .cell-bakery { background: #FDE8E8; border: 2px solid var(--red); }
-  .cell-church { background: #EDE7F6; border: 2px solid #7C3AED; }
-  .cell-road { background: #F5F5F5; border: 1px solid #E0E0E0; }
-  .cell-start { background: var(--teal); color: #fff; border: none; }
-  .cell-end { background: var(--gold); color: #fff; border: none; font-size: .8rem; }
-  .board-tag {
-    position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%);
-    background: var(--teal); color: #fff;
-    font-size: .7rem; font-weight: 700;
-    padding: 4px 16px; border-radius: 12px;
-    white-space: nowrap; letter-spacing: .04em;
-  }
+/* ── HERO ──────────────────────────────────────────────────── */
+.hero {
+  padding-top: 64px;
+  min-height: 100svh;
+  background: var(--board-bg);
+  display: flex; align-items: center;
+  position: relative; overflow: hidden;
+}
+.hero-blobs {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+}
+.hero-blob {
+  position: absolute; border-radius: 50%;
+  filter: blur(70px); opacity: .55;
+}
+.hero-blob-1 {
+  width: 480px; height: 480px;
+  background: rgba(42,127,127,.22);
+  top: -10%; right: 5%;
+  animation: blobDrift1 14s ease-in-out infinite;
+}
+.hero-blob-2 {
+  width: 360px; height: 360px;
+  background: rgba(196,149,106,.18);
+  bottom: 5%; left: 0%;
+  animation: blobDrift2 18s ease-in-out infinite;
+}
+.hero-blob-3 {
+  width: 280px; height: 280px;
+  background: rgba(58,122,82,.16);
+  top: 35%; left: 30%;
+  animation: blobDrift1 22s ease-in-out infinite reverse;
+}
+@keyframes blobDrift1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(30px,-20px) scale(1.06); }
+  66% { transform: translate(-15px,25px) scale(.96); }
+}
+@keyframes blobDrift2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(20px,-30px) scale(1.04); }
+}
 
-  @media(max-width:768px){
-    .hero { grid-template-columns: 1fr; }
-    .hero-visual { order: -1; min-height: 320px; }
-    .hero-content { padding: 40px 24px; }
-  }
+.hero-inner {
+  max-width: 1160px; margin: 0 auto;
+  width: 100%; padding: 80px 32px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+  position: relative; z-index: 1;
+}
+@media (max-width: 768px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; padding: 48px 24px; }
+  .hero-img-col { order: -1; }
+}
 
-  /* ─── TICKER ─── */
-  .ticker-wrap {
-    background: var(--teal); color: #fff;
-    overflow: hidden; height: 38px; display: flex; align-items: center;
-  }
-  .ticker-track {
-    display: flex;
-    animation: ticker 26s linear infinite;
-    white-space: nowrap;
-  }
-  .ticker-item {
-    font-size: .82rem; font-weight: 600;
-    padding: 0 32px; letter-spacing: .04em;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .ticker-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal-light); }
-  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.hero-text-col { display: flex; flex-direction: column; gap: 28px; }
 
-  /* ─── SECTIONS ─── */
-  section { padding: 96px 24px; }
-  .section-inner { max-width: 1120px; margin: 0 auto; }
-  .section-label {
-    font-size: .75rem; font-weight: 700; letter-spacing: .1em;
-    text-transform: uppercase; color: var(--teal); margin-bottom: 12px;
-  }
-  .section-title {
-    font-family: 'Quicksand', sans-serif;
-    font-size: clamp(1.8rem, 3vw, 2.6rem);
-    line-height: 1.22; color: var(--ink); margin-bottom: 16px;
-  }
-  .section-sub {
-    font-size: 1.05rem; line-height: 1.7;
-    color: var(--ink-soft); max-width: 560px;
-  }
+.display-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(42,127,127,.1); border: 1px solid rgba(42,127,127,.25);
+  color: var(--teal); font-size: .72rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 6px 16px; border-radius: 100px; width: fit-content;
+}
 
-  /* ─── HOW IT WORKS ─── */
-  .how-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 32px; margin-top: 56px;
-  }
-  .how-card {
-    background: var(--white); border: 1px solid rgba(42,127,127,.12);
-    border-radius: 20px; padding: 36px 28px;
-    transition: transform .3s, box-shadow .3s;
-    opacity: 0; transform: translateY(24px);
-  }
-  .how-card.visible { opacity: 1; transform: none; transition: opacity .5s, transform .5s; }
-  .how-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(42,127,127,.12); }
-  .how-num {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: var(--teal); color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 1.1rem; margin-bottom: 20px;
-  }
-  .how-card h3 { font-weight: 700; font-size: 1.05rem; margin-bottom: 10px; }
-  .how-card p { font-size: .9rem; line-height: 1.6; color: var(--ink-soft); }
+.hero-h1 {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  line-height: 1.12; font-weight: 700;
+  color: #1A3333;
+}
+.hero-h1 em { font-style: normal; color: var(--teal); }
+.hero-h1 strong {
+  position: relative; white-space: nowrap;
+  font-style: italic; font-weight: 700;
+  color: var(--gold);
+}
 
-  /* ─── EXAMPLE BOARD ─── */
-  .example-section { background: var(--card-bg); }
-  .example-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 64px; align-items: center; margin-top: 56px;
-  }
-  .example-board-wrap {
-    display: flex; align-items: center; justify-content: center;
-    padding: 32px;
-    background: var(--white); border-radius: 24px;
-    border: 1px solid rgba(42,127,127,.12);
-    min-height: 360px;
-    position: relative;
-  }
-  .example-board-wrap .placeholder-label {
-    position: absolute; inset: 0; display: flex;
-    flex-direction: column; align-items: center; justify-content: center;
-    color: var(--teal); font-weight: 600;
-    border-radius: 24px; border: 2px dashed var(--teal-light);
-    gap: 8px; font-size: .9rem;
-  }
-  .example-board-wrap .placeholder-label span { font-size: 3rem; }
-  .example-board-wrap img {
-    width: 100%; height: 100%;
-    object-fit: contain; border-radius: 20px;
-  }
-  .example-list { display: flex; flex-direction: column; gap: 20px; }
-  .example-item {
-    display: flex; gap: 16px; align-items: flex-start;
-    opacity: 0; transform: translateX(16px);
-  }
-  .example-item.visible { opacity: 1; transform: none; transition: opacity .4s, transform .4s; }
-  .example-dot {
-    width: 40px; height: 40px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem; flex-shrink: 0;
-  }
-  .example-item h4 { font-weight: 700; margin-bottom: 4px; }
-  .example-item p { font-size: .88rem; color: var(--ink-soft); line-height: 1.5; }
-  @media(max-width:768px){ .example-grid { grid-template-columns: 1fr; } }
+.hero-sub {
+  font-size: 1.05rem; line-height: 1.75;
+  color: #5A7070; max-width: 440px;
+}
 
-  /* ─── PRICING ─── */
-  .pricing-section { background: var(--linen); }
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px; margin-top: 56px;
-  }
-  .pricing-card {
-    background: var(--white); border-radius: 24px;
-    padding: 36px 32px;
-    border: 1.5px solid rgba(42,127,127,.15);
-    position: relative; overflow: hidden;
-    transition: transform .25s, box-shadow .25s;
-    transform-style: preserve-3d;
-  }
-  .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(42,127,127,.14); }
-  .pricing-card.featured {
-    border-color: var(--teal);
-    box-shadow: 0 8px 32px rgba(42,127,127,.2);
-  }
-  .pricing-card.featured::after {
-    content: 'Le plus populaire';
-    position: absolute;
-    background: var(--teal); color: #fff;
-    font-size: .68rem; font-weight: 700;
-    letter-spacing: .06em; text-transform: uppercase;
-    width: 120px; text-align: center;
-    top: 22px; right: -28px;
-    padding: 5px 0;
-    transform: rotate(45deg);
-    transform-origin: center;
-  }
-  .pricing-name { font-weight: 700; font-size: 1rem; margin-bottom: 4px; color: var(--teal); }
-  .pricing-desc { font-size: .85rem; color: var(--ink-soft); margin-bottom: 24px; }
-  .pricing-price {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 2.8rem; color: var(--ink);
-    margin-bottom: 4px; line-height: 1;
-  }
-  .pricing-price span { font-size: 1.1rem; font-family: 'Quicksand', sans-serif; }
-  .pricing-sub { font-size: .82rem; color: var(--ink-soft); margin-bottom: 28px; }
-  .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-  .pricing-features li {
-    font-size: .88rem; display: flex; gap: 10px; align-items: flex-start;
-  }
-  .pricing-features li::before { content: '✓'; color: var(--teal); font-weight: 700; flex-shrink: 0; }
-  .pricing-card .btn-primary { width: 100%; text-align: center; }
-  .pricing-card .btn-secondary { width: 100%; text-align: center; }
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.btn-primary {
+  background: var(--teal); color: #fff;
+  padding: 15px 36px; border-radius: 100px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700; font-size: 1rem;
+  border: none; cursor: pointer;
+  transition: background var(--t), transform .15s, box-shadow .15s;
+  text-decoration: none; display: inline-block;
+  box-shadow: 0 4px 16px rgba(42,127,127,.32);
+}
+.btn-primary:hover {
+  background: var(--teal-deep); transform: translateY(-2px);
+  box-shadow: var(--sh-teal);
+}
+.btn-ghost {
+  background: transparent; color: #1A3333;
+  padding: 14px 28px; border-radius: 100px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700; font-size: .9rem;
+  border: 1.5px solid rgba(26,51,51,.2); cursor: pointer;
+  transition: border-color var(--t), transform .15s;
+  text-decoration: none; display: inline-block;
+}
+.btn-ghost:hover { border-color: var(--teal); color: var(--teal); transform: translateY(-1px); }
 
-  /* ─── BOARD SHOWCASE ─── */
-  .boards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px; margin-top: 48px;
-  }
-  .board-thumb {
-    background: var(--teal-pale); border-radius: 16px;
-    aspect-ratio: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 10px;
-    border: 2px dashed var(--teal-light);
-    color: var(--teal); font-weight: 600; font-size: .85rem;
-    opacity: 0; transform: scale(.96);
-    transition: opacity .5s, transform .5s;
-  }
-  .board-thumb.visible { opacity: 1; transform: none; }
-  .board-thumb .thumb-icon { font-size: 2rem; }
-  .board-thumb img {
-    width: 100%; height: 100%; object-fit: cover; border-radius: 14px;
-  }
+.hero-badges {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-top: 4px;
+}
+.hero-badge {
+  background: rgba(255,255,255,.85); border: 1px solid rgba(42,127,127,.18);
+  border-radius: 100px; padding: 7px 14px;
+  font-size: .76rem; font-weight: 600; color: #5A7070;
+  display: inline-flex; align-items: center; gap: 6px;
+  animation: badgePop var(--t-spring) backwards;
+  backdrop-filter: blur(6px);
+}
+.hero-badge:nth-child(1) { animation-delay: .4s; }
+.hero-badge:nth-child(2) { animation-delay: .55s; }
+.hero-badge:nth-child(3) { animation-delay: .7s; }
+@keyframes badgePop {
+  from { opacity: 0; transform: scale(.8) translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
 
-  /* ─── EMOTION ─── */
-  .emotion-section {
-    background: var(--ink); color: var(--card-bg);
-    position: relative; overflow: hidden;
-  }
-  .emotion-bg {
-    position: absolute; inset: 0;
-    background-size: cover; background-position: center;
-    opacity: .15;
-  }
-  .emotion-inner {
-    position: relative; z-index: 1;
-    max-width: 720px; margin: 0 auto; text-align: center;
-  }
-  .emotion-section .section-title { color: var(--white); }
-  .emotion-section .section-label { color: var(--teal-light); }
-  .testimonials { display: flex; flex-direction: column; gap: 20px; margin-top: 48px; }
-  .testimonial {
-    background: rgba(255,255,255,.07); border-radius: 16px;
-    padding: 24px 28px; text-align: left;
-    border: 1px solid rgba(255,255,255,.1);
-  }
-  .testimonial p { font-size: .95rem; line-height: 1.7; font-style: italic; margin-bottom: 12px; }
-  .testimonial-author { font-weight: 700; font-size: .82rem; color: var(--teal-light); }
+.hero-img-col {
+  position: relative; display: flex;
+  align-items: center; justify-content: center;
+}
+.hero-img-wrap {
+  position: relative;
+  animation: heroFloat 6s ease-in-out infinite;
+  width: 100%; max-width: 500px;
+}
+@keyframes heroFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-14px); }
+}
+.hero-img-wrap img {
+  width: 100%; border-radius: var(--r-xl);
+  box-shadow: var(--sh-teal);
+  display: block;
+}
+.hero-floater {
+  position: absolute; background: #fff;
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.14);
+  font-size: .78rem; font-weight: 700;
+  white-space: nowrap; display: flex; align-items: center; gap: 8px;
+  animation: floaterPop var(--t-spring) backwards;
+}
+.hero-floater-1 {
+  top: 14%; right: -8%;
+  animation-delay: .9s;
+}
+.hero-floater-2 {
+  bottom: 16%; left: -8%;
+  animation-delay: 1.1s;
+}
+@keyframes floaterPop {
+  from { opacity: 0; transform: scale(.6); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.floater-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--teal); flex-shrink: 0;
+}
 
-  /* ─── FAMILY NAV ─── */
-  .family-nav-section {
-    background: var(--white);
-    border-top: 1px solid rgba(42,127,127,.12);
-    padding: 48px 24px;
-  }
-  .family-nav-inner { max-width: 800px; margin: 0 auto; text-align: center; }
-  .family-nav-title {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 1rem; color: var(--ink-soft); margin-bottom: 20px;
-  }
-  .family-pills { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-  .family-pill {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 10px 20px; border-radius: 24px;
-    font-weight: 600; font-size: .88rem;
-    text-decoration: none; transition: transform .2s;
-    border: 1.5px solid rgba(0,0,0,.1);
-    color: var(--ink-soft); background: var(--white);
-  }
-  .family-pill:hover { transform: translateY(-2px); }
-  .family-pill.active {
-    background: var(--teal); color: #fff;
-    border-color: var(--teal);
-  }
-  .family-pill.active span.here {
-    background: rgba(255,255,255,.25); border-radius: 10px;
-    padding: 1px 7px; font-size: .72rem;
-  }
+/* ── PARTICLES ──────────────────────────────────────────── */
+.particles-layer {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  overflow: hidden;
+}
+.particle {
+  position: absolute; bottom: -60px;
+  font-size: 1.4rem; opacity: 0;
+  animation: floatUp linear infinite;
+  user-select: none; pointer-events: none;
+}
+@keyframes floatUp {
+  0%   { transform: translateY(0) rotate(0deg)   scale(.7); opacity: 0; }
+  10%  { opacity: .45; }
+  85%  { opacity: .3; }
+  100% { transform: translateY(-110vh) rotate(360deg) scale(1.1); opacity: 0; }
+}
 
-  /* ─── FAQ ─── */
-  .faq-section { background: var(--card-bg); }
-  .faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 12px; }
-  .faq-item {
-    background: var(--white); border: 1px solid rgba(42,127,127,.12);
-    border-radius: 16px; overflow: hidden;
-    opacity: 0; transform: translateY(12px);
-  }
-  .faq-item.visible { opacity: 1; transform: none; transition: opacity .4s, transform .4s; }
-  .faq-q {
-    width: 100%; background: none; border: none;
-    padding: 20px 24px; text-align: left;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: 700; font-size: 1rem; color: var(--ink);
-    cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-  }
-  .faq-q::after { content: '+'; font-size: 1.3rem; color: var(--teal); transition: transform .25s; }
-  .faq-item.open .faq-q::after { transform: rotate(45deg); }
-  .faq-a {
-    max-height: 0; overflow: hidden;
-    transition: max-height .35s ease, padding .35s;
-    font-size: .9rem; line-height: 1.7; color: var(--ink-soft);
-    padding: 0 24px;
-  }
-  .faq-item.open .faq-a { max-height: 200px; padding: 0 24px 20px; }
+/* ── PROOF BAR ──────────────────────────────────────────── */
+.proof-bar {
+  background: var(--teal); color: #fff;
+  overflow: hidden; height: 40px;
+  display: flex; align-items: center;
+  position: relative; z-index: 1;
+}
+.proof-track {
+  display: flex; white-space: nowrap;
+  animation: proofScroll 28s linear infinite;
+}
+.proof-item {
+  font-size: .8rem; font-weight: 600;
+  padding: 0 36px; letter-spacing: .04em;
+  display: flex; align-items: center; gap: 8px;
+}
+.proof-sep {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: rgba(255,255,255,.45);
+  flex-shrink: 0;
+}
+@keyframes proofScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
 
-  /* ─── CTA ─── */
-  .cta-section {
-    background: linear-gradient(135deg, var(--teal) 0%, var(--ink) 100%);
-    color: #fff; text-align: center;
-  }
-  .cta-section .section-title { color: #fff; }
-  .cta-section .section-sub { color: rgba(255,255,255,.8); margin: 0 auto 32px; }
-  .btn-white {
-    background: #fff; color: var(--teal);
-    padding: 16px 40px; border-radius: 32px;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: 700; font-size: 1.05rem;
-    border: none; cursor: pointer;
-    transition: transform .15s, box-shadow .15s;
-    text-decoration: none; display: inline-block;
-  }
-  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+/* ── SECTIONS BASE ──────────────────────────────────────── */
+section { padding: 100px 32px; position: relative; }
+.section-inner { max-width: 1160px; margin: 0 auto; }
 
-  /* ─── FOOTER ─── */
-  footer {
-    background: var(--ink); color: rgba(255,255,255,.5);
-    text-align: center; padding: 32px 24px;
-    font-size: .82rem; line-height: 1.8;
-  }
-  footer a { color: var(--teal-light); text-decoration: none; }
+.section-header { margin-bottom: 64px; }
+.section-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--teal);
+  margin-bottom: 14px;
+}
+.section-tag::before {
+  content: '';
+  display: inline-block; width: 16px; height: 2px;
+  background: var(--teal); border-radius: 1px;
+}
+.section-h2 {
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+  line-height: 1.2; color: #1A3333;
+  margin-bottom: 18px;
+}
+.section-h2 em { font-style: italic; color: var(--teal); }
+.section-lead {
+  font-size: 1.05rem; line-height: 1.75;
+  color: #5A7070; max-width: 560px;
+}
 
-  /* ─── ORDER MODAL ─── */
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(26,51,51,.75);
-    z-index: 2000; display: none; align-items: center; justify-content: center;
-    padding: 24px;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: var(--white); border-radius: 24px;
-    padding: 48px 40px; max-width: 520px; width: 100%;
-    position: relative;
-  }
-  .modal-close {
-    position: absolute; top: 16px; right: 20px;
-    background: none; border: none; font-size: 1.5rem;
-    cursor: pointer; color: var(--ink-soft);
-  }
-  .modal h2 {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 1.6rem; margin-bottom: 8px;
-  }
-  .modal p { color: var(--ink-soft); font-size: .9rem; line-height: 1.6; margin-bottom: 24px; }
-  .form-group { margin-bottom: 16px; }
-  .form-group label {
-    display: block; font-weight: 700; font-size: .85rem;
-    margin-bottom: 6px; color: var(--ink);
-  }
-  .form-group input, .form-group textarea {
-    width: 100%; border: 1.5px solid rgba(42,127,127,.25);
-    border-radius: 10px; padding: 12px 14px;
-    font-family: 'Quicksand', sans-serif; font-size: .9rem;
-    color: var(--ink); background: var(--white);
-    transition: border-color .2s;
-  }
-  .form-group input:focus, .form-group textarea:focus {
-    outline: none; border-color: var(--teal);
-  }
-  .form-group textarea { resize: vertical; min-height: 80px; }
+/* ── REVEAL ANIMATIONS ──────────────────────────────────── */
+.reveal        { opacity: 0; transform: translateY(28px); }
+.reveal-left   { opacity: 0; transform: translateX(-28px); }
+.reveal-right  { opacity: 0; transform: translateX(28px); }
+.reveal.visible, .reveal-left.visible, .reveal-right.visible {
+  opacity: 1; transform: none;
+  transition: opacity .55s ease, transform .55s ease;
+}
 
-  /* ─── REVEAL ─── */
-  .reveal { opacity: 0; transform: translateY(24px); }
-  .reveal.visible { opacity: 1; transform: none; transition: opacity .5s, transform .5s; }
+/* ── PROCESS ────────────────────────────────────────────── */
+.process-section { background: var(--cream); }
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px; position: relative;
+}
+.process-grid::before {
+  content: '';
+  position: absolute; top: 40px; z-index: 0;
+  left: calc(16.67% + 12px); right: calc(16.67% + 12px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--teal-light), rgba(42,127,127,.2));
+}
+.process-card {
+  background: #fff;
+  border: 1px solid rgba(42,127,127,.1);
+  border-radius: var(--r-lg); padding: 36px 28px;
+  text-align: center; position: relative; z-index: 1;
+  transition: transform var(--t), box-shadow var(--t);
+}
+.process-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(42,127,127,.12);
+}
+.process-icon {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: var(--teal-pale);
+  border: 3px solid var(--teal-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; margin: 0 auto 24px;
+  position: relative;
+}
+.process-icon-num {
+  position: absolute; top: -4px; right: -4px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--teal); color: #fff;
+  font-size: .68rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.process-card h3 {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700; font-size: 1.1rem;
+  color: #1A3333; margin-bottom: 10px;
+}
+.process-card p {
+  font-size: .9rem; line-height: 1.65; color: #5A7070;
+}
+@media (max-width: 640px) {
+  .process-grid { grid-template-columns: 1fr; }
+  .process-grid::before { display: none; }
+}
 
-  /* ─── NAV NEXT ─── */
-  .nav-next-mini { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:100px; border:1.5px solid rgba(42,127,127,.3); font-size:.78rem; font-weight:700; color:var(--ink); text-decoration:none; transition:border-color .2s,color .2s; }
-  .nav-next-mini:hover { border-color:var(--teal); color:var(--teal); }
+/* ── EXAMPLE SECTION ────────────────────────────────────── */
+.example-section { background: var(--board-bg); }
+.example-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 72px; align-items: center;
+}
+@media (max-width: 768px) {
+  .example-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+.example-img-wrap {
+  border-radius: var(--r-xl); overflow: hidden;
+  box-shadow: var(--sh-teal);
+  aspect-ratio: 4/3;
+}
+.example-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+.example-list { display: flex; flex-direction: column; gap: 24px; }
+.example-item {
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.example-dot {
+  width: 44px; height: 44px; border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; flex-shrink: 0;
+}
+.example-item h4 {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700; font-size: .98rem;
+  color: #1A3333; margin-bottom: 4px;
+}
+.example-item p { font-size: .88rem; color: #5A7070; line-height: 1.55; }
 
-  /* ─── FAMILY SHELF ─── */
-  .family-shelf { background:#1A1612; padding:72px 24px; border-top:1px solid rgba(255,255,255,.04); }
-  .family-shelf-label { font-family:'Quicksand',sans-serif; font-size:.7rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.3); text-align:center; margin-bottom:32px; }
-  .family-cards { display:flex; gap:14px; max-width:1000px; margin:0 auto; justify-content:center; flex-wrap:wrap; }
-  .fcard { position:relative; width:168px; height:224px; border-radius:18px; overflow:hidden; text-decoration:none; background-size:cover; background-position:center; transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s; flex-shrink:0; }
-  .fcard:hover { transform:translateY(-8px) scale(1.04); box-shadow:0 20px 48px rgba(0,0,0,.55); }
-  .fcard.active { box-shadow:0 0 0 3px rgba(255,255,255,.75),0 0 0 7px rgba(255,255,255,.1),0 12px 40px rgba(0,0,0,.4); }
-  .fcard-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.3) 55%,transparent 100%); }
-  .fcard-body { position:absolute; bottom:0; left:0; right:0; padding:14px 12px; }
-  .fcard-emoji { display:block; font-size:1.3rem; margin-bottom:4px; }
-  .fcard-name { display:block; font-family:'Quicksand',sans-serif; font-weight:700; font-size:.92rem; color:#fff; }
-  .fcard-tag { display:block; font-size:.67rem; color:rgba(255,255,255,.55); margin-top:2px; }
-  .fcard-here { position:absolute; top:10px; right:10px; background:rgba(255,255,255,.92); color:#1A1612; font-size:.58rem; font-weight:700; padding:2px 8px; border-radius:20px; }
+/* ── GALLERY ────────────────────────────────────────────── */
+.gallery-section { background: #fff; }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+@media (max-width: 768px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.gallery-cell {
+  border-radius: var(--r-lg); overflow: hidden;
+  aspect-ratio: 3/4;
+  position: relative;
+  transition: transform var(--t), box-shadow var(--t);
+}
+.gallery-cell:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(42,127,127,.2);
+  z-index: 2;
+}
+.gallery-cell img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+
+/* ── FEATURES ───────────────────────────────────────────── */
+.features-section { background: var(--teal-pale); }
+.features-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 40px; align-items: center;
+}
+@media (max-width: 768px) {
+  .features-grid { grid-template-columns: 1fr; }
+}
+.features-list { display: flex; flex-direction: column; gap: 4px; }
+.feat-item {
+  display: flex; gap: 18px; align-items: flex-start;
+  padding: 20px 22px; border-radius: var(--r-md);
+  cursor: default;
+  transition: background var(--t), transform var(--t);
+}
+.feat-item:hover {
+  background: rgba(255,255,255,.7);
+  transform: translateX(8px);
+}
+.feat-icon {
+  width: 48px; height: 48px; border-radius: var(--r-sm);
+  background: rgba(42,127,127,.12);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0;
+  transition: background var(--t);
+}
+.feat-item:hover .feat-icon { background: var(--teal); }
+.feat-body h3 {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700; font-size: 1rem;
+  color: #1A3333; margin-bottom: 4px;
+}
+.feat-body p { font-size: .88rem; color: #5A7070; line-height: 1.55; }
+.features-visual {
+  border-radius: var(--r-xl); overflow: hidden;
+  box-shadow: var(--sh-teal);
+  aspect-ratio: 4/5;
+}
+.features-visual img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+
+/* ── PRICING ────────────────────────────────────────────── */
+.pricing-section { background: var(--gold-pale); }
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; align-items: start;
+}
+@media (max-width: 768px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+}
+.pricing-card {
+  background: #fff; border-radius: var(--r-xl);
+  padding: 40px 32px;
+  border: 1.5px solid rgba(42,127,127,.12);
+  position: relative; overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform .25s, box-shadow .25s;
+}
+.pricing-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(42,127,127,.14);
+}
+.pricing-card.featured {
+  border-color: var(--teal);
+  background: linear-gradient(160deg, #fff 60%, var(--teal-pale));
+  box-shadow: var(--sh-teal);
+}
+.pricing-tag {
+  position: absolute; top: 22px; right: -28px;
+  background: var(--teal); color: #fff;
+  font-size: .66rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  padding: 5px 0; width: 120px; text-align: center;
+  transform: rotate(45deg); transform-origin: center;
+}
+.pricing-name {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700; font-size: 1.1rem;
+  color: var(--teal); margin-bottom: 4px;
+}
+.pricing-desc { font-size: .85rem; color: #5A7070; margin-bottom: 28px; }
+.pricing-price {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 3rem; font-weight: 700;
+  color: #1A3333; line-height: 1; margin-bottom: 4px;
+}
+.pricing-price span { font-size: 1.1rem; }
+.pricing-sub { font-size: .8rem; color: #5A7070; margin-bottom: 28px; }
+.pricing-features {
+  list-style: none; display: flex;
+  flex-direction: column; gap: 10px; margin-bottom: 32px;
+}
+.pricing-features li {
+  font-size: .88rem; display: flex;
+  gap: 10px; align-items: flex-start;
+}
+.pricing-features li::before {
+  content: '✓'; color: var(--teal);
+  font-weight: 700; flex-shrink: 0;
+}
+.pricing-btn-filled {
+  display: block; width: 100%; text-align: center;
+  background: var(--teal); color: #fff;
+  padding: 14px; border-radius: 100px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700; font-size: .95rem;
+  border: none; cursor: pointer;
+  transition: background var(--t), transform .15s;
+  text-decoration: none;
+}
+.pricing-btn-filled:hover {
+  background: var(--teal-deep); transform: translateY(-2px);
+}
+.pricing-btn-outline {
+  display: block; width: 100%; text-align: center;
+  background: transparent; color: var(--teal);
+  padding: 13px; border-radius: 100px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700; font-size: .95rem;
+  border: 2px solid rgba(42,127,127,.3); cursor: pointer;
+  transition: border-color var(--t), transform .15s;
+  text-decoration: none;
+}
+.pricing-btn-outline:hover {
+  border-color: var(--teal); transform: translateY(-2px);
+}
+
+/* ── EMOTION ────────────────────────────────────────────── */
+.emotion-section {
+  background: #0F2222; color: #fff;
+  position: relative; overflow: hidden;
+}
+.emotion-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url('images/minichemin/ComfyUI_temp_rgztr_00001_.webp');
+  background-size: cover; background-position: center;
+  opacity: .08;
+}
+.emotion-inner { position: relative; z-index: 1; }
+.emotion-inner .section-tag { color: var(--teal-light); }
+.emotion-inner .section-tag::before { background: var(--teal-light); }
+.emotion-inner .section-h2 { color: #fff; }
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px; margin-top: 56px;
+}
+@media (max-width: 768px) {
+  .testimonials-grid { grid-template-columns: 1fr; }
+}
+.testimonial {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--r-lg); padding: 28px;
+  transition: background var(--t), transform var(--t);
+}
+.testimonial:hover {
+  background: rgba(255,255,255,.1);
+  transform: translateY(-4px);
+}
+.testimonial-stars { font-size: .9rem; margin-bottom: 14px; }
+.testimonial p {
+  font-size: .93rem; line-height: 1.7;
+  font-style: italic; color: rgba(255,255,255,.82);
+  margin-bottom: 16px;
+}
+.testimonial-author {
+  font-weight: 700; font-size: .8rem;
+  color: var(--teal-light);
+}
+
+/* ── FAMILY SHELF ───────────────────────────────────────── */
+.family-shelf {
+  background: #0F1A1A; padding: 80px 32px;
+  border-top: 1px solid rgba(255,255,255,.04);
+}
+.family-shelf-label {
+  font-family: 'Quicksand', sans-serif;
+  font-size: .7rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  text-align: center; margin-bottom: 36px;
+}
+.family-cards {
+  display: flex; gap: 14px;
+  max-width: 1000px; margin: 0 auto;
+  justify-content: center; flex-wrap: wrap;
+}
+.fcard {
+  position: relative; width: 168px; height: 224px;
+  border-radius: 18px; overflow: hidden;
+  text-decoration: none;
+  background-size: cover; background-position: center;
+  transition: transform var(--t-spring), box-shadow var(--t);
+  flex-shrink: 0;
+}
+.fcard:hover {
+  transform: translateY(-10px) scale(1.04);
+  box-shadow: 0 20px 48px rgba(0,0,0,.55);
+}
+.fcard.active {
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,.75),
+    0 0 0 7px rgba(255,255,255,.1),
+    0 12px 40px rgba(0,0,0,.4);
+}
+.fcard-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top,
+    rgba(0,0,0,.9) 0%, rgba(0,0,0,.3) 55%, transparent 100%);
+}
+.fcard-body {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 14px 12px;
+}
+.fcard-emoji { display: block; font-size: 1.3rem; margin-bottom: 4px; }
+.fcard-name {
+  display: block;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700; font-size: .92rem; color: #fff;
+}
+.fcard-tag { display: block; font-size: .67rem; color: rgba(255,255,255,.55); margin-top: 2px; }
+.fcard-here {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(255,255,255,.92); color: #0F1A1A;
+  font-size: .58rem; font-weight: 700;
+  padding: 2px 8px; border-radius: 20px;
+}
+
+/* ── FAQ ────────────────────────────────────────────────── */
+.faq-section { background: var(--board-bg); }
+.faq-list { display: flex; flex-direction: column; gap: 10px; }
+.faq-item {
+  background: #fff; border: 1px solid rgba(42,127,127,.12);
+  border-radius: var(--r-md); overflow: hidden;
+}
+.faq-q {
+  width: 100%; background: none; border: none;
+  padding: 20px 24px; text-align: left;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700; font-size: .98rem; color: #1A3333;
+  cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 16px;
+}
+.faq-q::after {
+  content: '+'; font-size: 1.4rem;
+  color: var(--teal); flex-shrink: 0;
+  transition: transform .25s;
+}
+.faq-item.open .faq-q::after { transform: rotate(45deg); }
+.faq-a {
+  max-height: 0; overflow: hidden;
+  transition: max-height .35s ease, padding .35s;
+  font-size: .9rem; line-height: 1.7; color: #5A7070;
+  padding: 0 24px;
+}
+.faq-item.open .faq-a { max-height: 240px; padding: 0 24px 20px; }
+
+/* ── CTA ────────────────────────────────────────────────── */
+.cta-section {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-deep) 100%);
+  color: #fff; text-align: center;
+  position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 60% 40%, rgba(255,255,255,.06) 0%, transparent 60%);
+}
+.cta-inner { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+.cta-inner .section-h2 { color: #fff; }
+.cta-inner .section-lead { color: rgba(255,255,255,.78); margin: 0 auto 36px; }
+.cta-inner .section-tag { color: rgba(255,255,255,.6); justify-content: center; }
+.cta-inner .section-tag::before { background: rgba(255,255,255,.6); }
+.btn-white {
+  background: #fff; color: var(--teal);
+  padding: 16px 44px; border-radius: 100px;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700; font-size: 1.05rem;
+  border: none; cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+  text-decoration: none; display: inline-block;
+  box-shadow: 0 4px 16px rgba(0,0,0,.2);
+}
+.btn-white:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,.25);
+}
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+footer {
+  background: #0A1212; color: rgba(255,255,255,.4);
+  text-align: center; padding: 40px 32px;
+  font-size: .82rem; line-height: 2;
+}
+footer a { color: var(--teal-light); text-decoration: none; }
+
+/* ── MODAL ──────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(10,18,18,.8);
+  z-index: 2000; display: none;
+  align-items: center; justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: #fff; border-radius: var(--r-xl);
+  padding: 48px 40px; max-width: 520px; width: 100%;
+  position: relative;
+  animation: modalIn .3s var(--t-spring);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(.9) translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+.modal-close {
+  position: absolute; top: 18px; right: 20px;
+  background: none; border: none;
+  font-size: 1.5rem; cursor: pointer; color: #5A7070;
+  line-height: 1; transition: color var(--t);
+}
+.modal-close:hover { color: #1A3333; }
+.modal h2 {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.7rem; color: #1A3333; margin-bottom: 8px;
+}
+.modal > p { color: #5A7070; font-size: .9rem; line-height: 1.6; margin-bottom: 28px; }
+.form-group { margin-bottom: 18px; }
+.form-group label {
+  display: block; font-weight: 700;
+  font-size: .83rem; margin-bottom: 7px; color: #1A3333;
+}
+.form-group input, .form-group textarea {
+  width: 100%; border: 1.5px solid rgba(42,127,127,.25);
+  border-radius: var(--r-sm); padding: 12px 14px;
+  font-family: 'Montserrat', sans-serif; font-size: .9rem;
+  color: #1A3333; background: #fff;
+  transition: border-color var(--t);
+}
+.form-group input:focus, .form-group textarea:focus {
+  outline: none; border-color: var(--teal);
+}
+.form-group textarea { resize: vertical; min-height: 80px; }
 </style>
 </head>
 <body>
 
-<div class="family-strip"></div>
 <div class="scroll-progress" id="scrollBar"></div>
+<div class="particles-layer" id="particles"></div>
 
 <!-- NAV -->
-<nav>
-  <a class="nav-brand" href="index.html">🎲 MiniChemin</a>
+<nav id="mainNav">
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-icon">🎲</div>
+    <span>Mini<em>Chemin</em></span>
+  </a>
   <div class="nav-links">
     <a href="#comment">Comment ça marche</a>
     <a href="#tarifs">Tarifs</a>
@@ -561,80 +853,107 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-content">
-    <div class="hero-label">🎲 Jeu de l'oie personnalisé</div>
-    <h1>Le chemin de<br><em>votre enfant</em><br>en jeu de société</h1>
-    <p class="hero-sub">
-      De la maison à l'école, en passant par la boulangerie et le parc —
-      chaque trajet réel devient un plateau de jeu fait main, en carton et bois.
-    </p>
-    <div class="hero-actions">
-      <button class="btn-primary" onclick="openModal()">Créer mon MiniChemin</button>
-    </div>
-    <div class="hero-badges">
-      <div class="hero-badge">📦 Livraison sous 10J</div>
-      <div class="hero-badge">🇫🇷 Fabriqué à Nantes</div>
-      <div class="hero-badge">♻️ Carton recyclé FSC</div>
-    </div>
+  <div class="hero-blobs">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-blob hero-blob-3"></div>
   </div>
-  <div class="hero-visual">
-    <picture>
-      <source srcset="images/minichemin/ComfyUI_temp_rgztr_00001_.webp" type="image/webp">
-      <img src="images/minichemin/ComfyUI_temp_rgztr_00001_.webp" alt="Famille jouant au jeu de plateau MiniChemin dans leur salon à Nantes" loading="eager" decoding="sync" fetchpriority="high">
-    </picture>
+  <div class="hero-inner">
+    <div class="hero-text-col">
+      <div class="display-tag">🎲 Jeu de l'oie personnalisé</div>
+      <h1 class="hero-h1">
+        Le chemin de<br>
+        <em>votre enfant</em><br>
+        en <strong>jeu de société</strong>
+      </h1>
+      <p class="hero-sub">
+        De la maison à l'école, en passant par la boulangerie et le parc —
+        chaque trajet réel devient un plateau de jeu fait main, en carton et bois.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="openModal()">Créer mon MiniChemin</button>
+        <a href="#exemple" class="btn-ghost">Voir un exemple</a>
+      </div>
+      <div class="hero-badges">
+        <div class="hero-badge">📦 Livraison sous 10J</div>
+        <div class="hero-badge">🇫🇷 Fabriqué à Nantes</div>
+        <div class="hero-badge">♻️ Carton recyclé FSC</div>
+      </div>
+    </div>
+    <div class="hero-img-col">
+      <div class="hero-img-wrap">
+        <picture>
+          <source srcset="images/minichemin/ComfyUI_temp_rgztr_00001_.webp" type="image/webp">
+          <img src="images/minichemin/ComfyUI_temp_rgztr_00001_.webp"
+               alt="Famille jouant au jeu de plateau MiniChemin dans leur salon à Nantes"
+               loading="eager" decoding="sync" fetchpriority="high">
+        </picture>
+        <div class="hero-floater hero-floater-1">
+          <div class="floater-dot"></div>
+          <span>Vos vrais lieux illustrés</span>
+        </div>
+        <div class="hero-floater hero-floater-2">
+          <div class="floater-dot"></div>
+          <span>🎲 Fait main à Nantes</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- TICKER -->
-<div class="ticker-wrap">
-  <div class="ticker-track">
-    <div class="ticker-item">🎲 Jeu personnalisé avec vos vrais lieux</div>
-    <div class="ticker-dot"></div>
-    <div class="ticker-item">♻️ Carton recyclé FSC et bois bouleau</div>
-    <div class="ticker-dot"></div>
-    <div class="ticker-item">✋ Illustré et assemblé à la main</div>
-    <div class="ticker-dot"></div>
-    <div class="ticker-item">📍 Atelier à Nantes</div>
-    <div class="ticker-dot"></div>
-    <div class="ticker-item">🎁 Idée cadeau originale</div>
-    <div class="ticker-dot"></div>
-    <div class="ticker-item">🎲 Jeu personnalisé avec vos vrais lieux</div>
-    <div class="ticker-dot"></div>
-    <div class="ticker-item">♻️ Carton recyclé FSC et bois bouleau</div>
-    <div class="ticker-dot"></div>
-    <div class="ticker-item">✋ Illustré et assemblé à la main</div>
-    <div class="ticker-dot"></div>
-    <div class="ticker-item">📍 Atelier à Nantes</div>
-    <div class="ticker-dot"></div>
-    <div class="ticker-item">🎁 Idée cadeau originale</div>
-    <div class="ticker-dot"></div>
+<!-- PROOF BAR -->
+<div class="proof-bar">
+  <div class="proof-track">
+    <div class="proof-item">🎲 Jeu personnalisé avec vos vrais lieux</div><div class="proof-sep"></div>
+    <div class="proof-item">♻️ Carton recyclé FSC et bois bouleau</div><div class="proof-sep"></div>
+    <div class="proof-item">✋ Illustré et assemblé à la main</div><div class="proof-sep"></div>
+    <div class="proof-item">📍 Atelier à Nantes</div><div class="proof-sep"></div>
+    <div class="proof-item">🎁 Idée cadeau originale pour enfants</div><div class="proof-sep"></div>
+    <div class="proof-item">⭐ Chaque plateau est unique</div><div class="proof-sep"></div>
+    <div class="proof-item">🎲 Jeu personnalisé avec vos vrais lieux</div><div class="proof-sep"></div>
+    <div class="proof-item">♻️ Carton recyclé FSC et bois bouleau</div><div class="proof-sep"></div>
+    <div class="proof-item">✋ Illustré et assemblé à la main</div><div class="proof-sep"></div>
+    <div class="proof-item">📍 Atelier à Nantes</div><div class="proof-sep"></div>
+    <div class="proof-item">🎁 Idée cadeau originale pour enfants</div><div class="proof-sep"></div>
+    <div class="proof-item">⭐ Chaque plateau est unique</div><div class="proof-sep"></div>
   </div>
 </div>
 
-<!-- HOW IT WORKS -->
-<section id="comment">
+<!-- PROCESS -->
+<section id="comment" class="process-section">
   <div class="section-inner">
-    <div class="section-label">Le processus</div>
-    <h2 class="section-title">De votre adresse<br>au plateau de jeu</h2>
-    <p class="section-sub">
-      Vous nous donnez une adresse de départ et d'arrivée, on dessine le chemin.
-      Tous les lieux du quotidien de votre enfant prendront vie sur le plateau.
-    </p>
-    <div class="how-grid">
-      <div class="how-card reveal">
-        <div class="how-num">1</div>
+    <div class="section-header reveal">
+      <div class="section-tag">Le processus</div>
+      <h2 class="section-h2">De votre adresse<br><em>au plateau de jeu</em></h2>
+      <p class="section-lead">
+        Vous nous donnez une adresse de départ et d'arrivée, on dessine le chemin.
+        Tous les lieux du quotidien de votre enfant prendront vie sur le plateau.
+      </p>
+    </div>
+    <div class="process-grid">
+      <div class="process-card reveal">
+        <div class="process-icon">
+          🏠
+          <div class="process-icon-num">1</div>
+        </div>
         <h3>Vos lieux</h3>
-        <p>Adresse de départ, d'arrivée, et les étapes du quotidien — boulangerie, école, parc, Mamie. Jusqu'à 12 étapes.</p>
+        <p>Adresse de départ, d'arrivée, et les étapes du quotidien — boulangerie, école, parc, Mamie. Jusqu'à 24 étapes selon le format.</p>
       </div>
-      <div class="how-card reveal">
-        <div class="how-num">2</div>
+      <div class="process-card reveal">
+        <div class="process-icon">
+          🎨
+          <div class="process-icon-num">2</div>
+        </div>
         <h3>Notre atelier</h3>
         <p>On dessine le plateau à la main et on découpe les pions au laser dans le bouleau. Chaque lieu illustré avec ses vrais détails.</p>
       </div>
-      <div class="how-card reveal">
-        <div class="how-num">3</div>
+      <div class="process-card reveal">
+        <div class="process-icon">
+          📦
+          <div class="process-icon-num">3</div>
+        </div>
         <h3>Livré chez vous</h3>
-        <p>Plateau, pions gravés, dé bois, règles illustrées — dans une boîte kraft au prénom de votre enfant. En 10 jours.</p>
+        <p>Plateau, pions gravés, dé bois, règles illustrées — dans une boîte kraft au prénom de votre enfant. En 10 jours ouvrés.</p>
       </div>
     </div>
   </div>
@@ -644,38 +963,40 @@
 <section class="example-section" id="exemple">
   <div class="section-inner">
     <div class="example-grid">
-      <div class="example-board-wrap reveal" style="border:none;padding:0;overflow:hidden">
+      <div class="example-img-wrap reveal-left">
         <picture>
           <source srcset="images/minichemin/ComfyUI_temp_srars_00001_.webp" type="image/webp">
-          <img src="images/minichemin/ComfyUI_temp_srars_00001_.webp" alt="Plateau de jeu MiniChemin en bois avec pions et dés" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;border-radius:22px">
+          <img src="images/minichemin/ComfyUI_temp_srars_00001_.webp"
+               alt="Plateau de jeu MiniChemin en bois avec pions et dés"
+               loading="lazy" decoding="async">
         </picture>
       </div>
-      <div>
-        <div class="section-label">Ce qui figure sur le plateau</div>
-        <h2 class="section-title">Votre quotidien<br>illustré case par case</h2>
+      <div class="reveal-right">
+        <div class="section-tag">Ce qui figure sur le plateau</div>
+        <h2 class="section-h2">Votre quotidien<br><em>illustré case par case</em></h2>
         <div class="example-list">
-          <div class="example-item reveal">
-            <div class="example-dot" style="background:var(--kraft-pale)">🏠</div>
+          <div class="example-item">
+            <div class="example-dot" style="background:var(--gold-pale)">🏠</div>
             <div>
               <h4>La maison de départ</h4>
               <p>La case départ reprend les traits de votre façade — fenêtres, couleur de porte, numéro de rue.</p>
             </div>
           </div>
-          <div class="example-item reveal">
+          <div class="example-item">
             <div class="example-dot" style="background:#FFF3E0">🥖</div>
             <div>
               <h4>Les lieux du quotidien</h4>
               <p>Boulangerie, école, parc, bibliothèque, maison de Mamie — chaque étape que vous aimez est représentée.</p>
             </div>
           </div>
-          <div class="example-item reveal">
+          <div class="example-item">
             <div class="example-dot" style="background:#E8F5E9">🌳</div>
             <div>
               <h4>Cases bonus et pénalités</h4>
               <p>Le parc fait avancer, les travaux reculent — on adapte les règles classiques à votre chemin réel.</p>
             </div>
           </div>
-          <div class="example-item reveal">
+          <div class="example-item">
             <div class="example-dot" style="background:var(--teal-pale)">🏫</div>
             <div>
               <h4>L'arrivée personnalisée</h4>
@@ -688,24 +1009,91 @@
   </div>
 </section>
 
-<!-- GALLERY BOARDS -->
-<section>
+<!-- GALLERY -->
+<section class="gallery-section">
   <div class="section-inner">
-    <div class="section-label">Nos réalisations</div>
-    <h2 class="section-title">Des chemins uniques,<br>des jeux qui durent</h2>
-    <p class="section-sub">Chaque plateau est différent, parce que chaque quartier est différent. Voici quelques exemples de ce qui sort de notre atelier.</p>
-    <div class="boards-grid">
-      <div class="board-thumb reveal" style="border:none">
-        <picture><source srcset="images/minichemin/ComfyUI_temp_axihh_00001_.webp" type="image/webp"><img src="images/minichemin/ComfyUI_temp_axihh_00001_.webp" alt="Google Maps à gauche, plateau de jeu MiniChemin à droite" loading="lazy" decoding="async"></picture>
+    <div class="section-header reveal">
+      <div class="section-tag">Nos réalisations</div>
+      <h2 class="section-h2">Des chemins uniques,<br><em>des jeux qui durent</em></h2>
+      <p class="section-lead">Chaque plateau est différent, parce que chaque quartier est différent. Voici quelques exemples de ce qui sort de notre atelier.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-cell reveal">
+        <picture>
+          <source srcset="images/minichemin/ComfyUI_temp_axihh_00001_.webp" type="image/webp">
+          <img src="images/minichemin/ComfyUI_temp_axihh_00001_.webp"
+               alt="Google Maps à gauche, plateau de jeu MiniChemin à droite" loading="lazy" decoding="async">
+        </picture>
       </div>
-      <div class="board-thumb reveal" style="border:none">
-        <picture><source srcset="images/minichemin/ComfyUI_temp_srars_00001_.webp" type="image/webp"><img src="images/minichemin/ComfyUI_temp_srars_00001_.webp" alt="Plateau MiniChemin bois avec chemins colorés et miniatures" loading="lazy" decoding="async"></picture>
+      <div class="gallery-cell reveal">
+        <picture>
+          <source srcset="images/minichemin/ComfyUI_temp_srars_00001_.webp" type="image/webp">
+          <img src="images/minichemin/ComfyUI_temp_srars_00001_.webp"
+               alt="Plateau MiniChemin bois avec chemins colorés et miniatures" loading="lazy" decoding="async">
+        </picture>
       </div>
-      <div class="board-thumb reveal" style="border:none">
-        <picture><source srcset="images/minichemin/ComfyUI_temp_rocck_00001_.webp" type="image/webp"><img src="images/minichemin/ComfyUI_temp_rocck_00001_.webp" alt="Tube kraft MiniChemin Size L" loading="lazy" decoding="async"></picture>
+      <div class="gallery-cell reveal">
+        <picture>
+          <source srcset="images/minichemin/ComfyUI_temp_rocck_00001_.webp" type="image/webp">
+          <img src="images/minichemin/ComfyUI_temp_rocck_00001_.webp"
+               alt="Boîte kraft MiniChemin emballage cadeau" loading="lazy" decoding="async">
+        </picture>
       </div>
-      <div class="board-thumb reveal" style="border:none">
-        <picture><source srcset="images/minichemin/ComfyUI_temp_rgztr_00001_.webp" type="image/webp"><img src="images/minichemin/ComfyUI_temp_rgztr_00001_.webp" alt="Famille jouant au MiniChemin dans le salon" loading="lazy" decoding="async"></picture>
+      <div class="gallery-cell reveal">
+        <picture>
+          <source srcset="images/minichemin/ComfyUI_temp_rgztr_00001_.webp" type="image/webp">
+          <img src="images/minichemin/ComfyUI_temp_rgztr_00001_.webp"
+               alt="Famille jouant au MiniChemin dans le salon" loading="lazy" decoding="async">
+        </picture>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="section-inner">
+    <div class="features-grid">
+      <div class="reveal-left">
+        <div class="section-tag">Ce qui le rend unique</div>
+        <h2 class="section-h2">Un jeu de société<br><em>comme aucun autre</em></h2>
+        <div class="features-list" style="margin-top:32px">
+          <div class="feat-item">
+            <div class="feat-icon">🗺️</div>
+            <div class="feat-body">
+              <h3>Vos vrais lieux, case par case</h3>
+              <p>Chaque plateau recrée fidèlement le trajet de votre enfant — pas une carte générique, mais son chemin à lui.</p>
+            </div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-icon">✂️</div>
+            <div class="feat-body">
+              <h3>Découpe laser et illustration à la main</h3>
+              <p>Les pions sont découpés au laser dans le bouleau. Le plateau est illustré case par case dans notre atelier nantais.</p>
+            </div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-icon">🌱</div>
+            <div class="feat-body">
+              <h3>Matériaux responsables</h3>
+              <p>Carton recyclé FSC 350g, bois bouleau certifié, encres végétales. Un jeu conçu pour durer des années.</p>
+            </div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-icon">🎁</div>
+            <div class="feat-body">
+              <h3>Cadeau prêt à offrir</h3>
+              <p>Boîte kraft gravée au prénom, ruban, carte personnalisée. Il n'y a plus qu'à offrir.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="features-visual reveal-right">
+        <picture>
+          <source srcset="images/minichemin/ComfyUI_temp_axihh_00001_.webp" type="image/webp">
+          <img src="images/minichemin/ComfyUI_temp_axihh_00001_.webp"
+               alt="Détail du plateau MiniChemin illustré à la main" loading="lazy" decoding="async">
+        </picture>
       </div>
     </div>
   </div>
@@ -714,9 +1102,11 @@
 <!-- PRICING -->
 <section id="tarifs" class="pricing-section">
   <div class="section-inner">
-    <div class="section-label">Tarifs</div>
-    <h2 class="section-title">Choisissez votre<br>format de chemin</h2>
-    <p class="section-sub">Chaque plateau est dessiné à la main et fabriqué dans notre atelier nantais. Les pions bois sont gravés au laser avec les prénoms.</p>
+    <div class="section-header reveal" style="text-align:center">
+      <div class="section-tag" style="justify-content:center">Tarifs</div>
+      <h2 class="section-h2" style="max-width:500px;margin:0 auto 18px">Choisissez votre<br><em>format de chemin</em></h2>
+      <p class="section-lead" style="margin:0 auto">Chaque plateau est dessiné à la main et fabriqué dans notre atelier nantais. Les pions bois sont gravés au laser avec les prénoms.</p>
+    </div>
     <div class="pricing-grid">
       <div class="pricing-card reveal">
         <div class="pricing-name">Le Sentier</div>
@@ -730,9 +1120,10 @@
           <li>Dé bois de bouleau</li>
           <li>Règles illustrées incluses</li>
         </ul>
-        <button class="btn-secondary" onclick="openModal()">Commencer</button>
+        <button class="pricing-btn-outline" onclick="openModal()">Commencer</button>
       </div>
       <div class="pricing-card featured reveal">
+        <div class="pricing-tag">Le plus populaire</div>
         <div class="pricing-name">Le Grand Chemin</div>
         <div class="pricing-desc">16 cases · 4 pions · coffret bois</div>
         <div class="pricing-price">99<span>€</span></div>
@@ -745,7 +1136,7 @@
           <li>Coffret de rangement kraft</li>
           <li>Carte personnalisée incluse</li>
         </ul>
-        <button class="btn-primary" onclick="openModal()">Commander mon chemin</button>
+        <button class="pricing-btn-filled" onclick="openModal()">Commander mon chemin</button>
       </div>
       <div class="pricing-card reveal">
         <div class="pricing-name">L'Aventure</div>
@@ -760,26 +1151,34 @@
           <li>Boîte bois avec couvercle gravé</li>
           <li>Version cadeau : ruban et carte</li>
         </ul>
-        <button class="btn-secondary" onclick="openModal()">Commencer</button>
+        <button class="pricing-btn-outline" onclick="openModal()">Commencer</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- EMOTION -->
+<!-- EMOTION / TESTIMONIALS -->
 <section class="emotion-section">
-  <div class="emotion-bg" style="background-image: url('images/minichemin/ComfyUI_temp_rgztr_00001_.webp')"></div>
   <div class="section-inner emotion-inner">
-    <div class="section-label">Ce qu'ils en disent</div>
-    <h2 class="section-title">Un jeu qui devient<br>un trésor de famille</h2>
-    <div class="testimonials">
-      <div class="testimonial">
+    <div class="section-header reveal" style="text-align:center;max-width:640px;margin-left:auto;margin-right:auto">
+      <div class="section-tag" style="justify-content:center">Ce qu'ils en disent</div>
+      <h2 class="section-h2">Un jeu qui devient<br><em style="color:var(--teal-light)">un trésor de famille</em></h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial reveal">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
         <p>« Ma fille reconnaît chaque case : "là c'est chez Mamie, là c'est la boulangerie de croissants !" Elle joue avec depuis des mois et veut toujours rejouer. »</p>
         <div class="testimonial-author">— Sophie, Nantes</div>
       </div>
-      <div class="testimonial">
+      <div class="testimonial reveal">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
         <p>« On a offert ça à notre neveu qui venait de déménager. Ça l'a aidé à apprivoiser son nouveau quartier en jouant. C'était touchant et vraiment bien fait. »</p>
         <div class="testimonial-author">— Paul & Marie, Paris</div>
+      </div>
+      <div class="testimonial reveal">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p>« Le plateau est magnifique. On avait peur que ce soit générique, mais chaque détail de notre rue est là. Les pions en bois gravés sont superbes. »</p>
+        <div class="testimonial-author">— Thomas, Lyon</div>
       </div>
     </div>
   </div>
@@ -791,24 +1190,44 @@
   <div class="family-cards">
     <a href="index.html" class="fcard" style="background-image:url('images/mini-toit/photo_maquette.webp')">
       <div class="fcard-overlay"></div>
-      <div class="fcard-body"><span class="fcard-emoji">🏠</span><span class="fcard-name">MiniToit</span><span class="fcard-tag">Maquette bois</span></div>
+      <div class="fcard-body">
+        <span class="fcard-emoji">🏠</span>
+        <span class="fcard-name">MiniToit</span>
+        <span class="fcard-tag">Maquette bois</span>
+      </div>
     </a>
     <a href="miniroute.html" class="fcard" style="background-image:url('images/mini-route/hero.webp')">
       <div class="fcard-overlay"></div>
-      <div class="fcard-body"><span class="fcard-emoji">🗺️</span><span class="fcard-name">MiniRoute</span><span class="fcard-tag">Tapis de quartier</span></div>
+      <div class="fcard-body">
+        <span class="fcard-emoji">🗺️</span>
+        <span class="fcard-name">MiniRoute</span>
+        <span class="fcard-tag">Tapis de quartier</span>
+      </div>
     </a>
     <a href="minitribu.html" class="fcard" style="background-image:url('images/minitribu/ComfyUI_temp_lltiz_00001_.webp')">
       <div class="fcard-overlay"></div>
-      <div class="fcard-body"><span class="fcard-emoji">👨‍👩‍👧‍👦</span><span class="fcard-name">MiniTribu</span><span class="fcard-tag">Figurines laser</span></div>
+      <div class="fcard-body">
+        <span class="fcard-emoji">👨‍👩‍👧‍👦</span>
+        <span class="fcard-name">MiniTribu</span>
+        <span class="fcard-tag">Figurines laser</span>
+      </div>
     </a>
     <div class="fcard active" style="background-image:url('images/minichemin/ComfyUI_temp_srars_00001_.webp')">
       <div class="fcard-overlay"></div>
-      <div class="fcard-body"><span class="fcard-emoji">🎲</span><span class="fcard-name">MiniChemin</span><span class="fcard-tag">Jeu de l'oie</span></div>
+      <div class="fcard-body">
+        <span class="fcard-emoji">🎲</span>
+        <span class="fcard-name">MiniChemin</span>
+        <span class="fcard-tag">Jeu de l'oie</span>
+      </div>
       <span class="fcard-here">ici</span>
     </div>
     <a href="miniarbre.html" class="fcard" style="background-image:url('images/miniarbre/ComfyUI_temp_kvcgs_00001_.webp')">
       <div class="fcard-overlay"></div>
-      <div class="fcard-body"><span class="fcard-emoji">🌳</span><span class="fcard-name">MiniArbre</span><span class="fcard-tag">Arbre généalogique</span></div>
+      <div class="fcard-body">
+        <span class="fcard-emoji">🌳</span>
+        <span class="fcard-name">MiniArbre</span>
+        <span class="fcard-tag">Arbre généalogique</span>
+      </div>
     </a>
   </div>
 </div>
@@ -816,8 +1235,10 @@
 <!-- FAQ -->
 <section id="faq" class="faq-section">
   <div class="section-inner" style="max-width:720px">
-    <div class="section-label">Questions fréquentes</div>
-    <h2 class="section-title">Tout ce que<br>vous voulez savoir</h2>
+    <div class="section-header reveal">
+      <div class="section-tag">Questions fréquentes</div>
+      <h2 class="section-h2">Tout ce que<br><em>vous voulez savoir</em></h2>
+    </div>
     <div class="faq-list">
       <div class="faq-item reveal">
         <button class="faq-q">Comment vous indiquer les lieux ?</button>
@@ -845,22 +1266,24 @@
 
 <!-- CTA -->
 <section id="commander" class="cta-section">
-  <div class="section-inner" style="text-align:center">
-    <div class="section-label" style="color:rgba(255,255,255,.6)">Prêt à jouer ?</div>
-    <h2 class="section-title">Créez le chemin<br>de votre enfant</h2>
-    <p class="section-sub">Donnez-nous vos lieux, on crée le jeu. Livraison en 10 jours ouvrés.</p>
-    <button class="btn-white" onclick="openModal()">Créer mon MiniChemin</button>
+  <div class="section-inner">
+    <div class="cta-inner">
+      <div class="section-tag">Prêt à jouer ?</div>
+      <h2 class="section-h2">Créez le chemin<br>de votre enfant</h2>
+      <p class="section-lead">Donnez-nous vos lieux, on crée le jeu. Livraison en 10 jours ouvrés.</p>
+      <button class="btn-white" onclick="openModal()">Créer mon MiniChemin →</button>
+    </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
   <p>MiniChemin · <a href="index.html">La famille Mini</a> · Atelier artisanal à Nantes, France</p>
-  <p style="margin-top:6px"><a href="index.html">MiniToit</a> · <a href="miniroute.html">MiniRoute</a> · <a href="miniarbre.html">MiniArbre</a> · <a href="minitribu.html">MiniTribu</a></p>
-  <p style="margin-top:12px">© 2025 La famille Mini · Tous droits réservés</p>
+  <p><a href="index.html">MiniToit</a> · <a href="miniroute.html">MiniRoute</a> · <a href="minitribu.html">MiniTribu</a> · <a href="miniarbre.html">MiniArbre</a></p>
+  <p style="margin-top:8px">© 2025 La famille Mini · Tous droits réservés</p>
 </footer>
 
-<!-- ORDER MODAL -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">×</button>
@@ -887,54 +1310,83 @@
 </div>
 
 <script>
-  // Scroll progress
-  const bar = document.getElementById('scrollBar');
-  window.addEventListener('scroll', () => {
-    const p = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-    bar.style.width = (p * 100) + '%';
-  }, { passive: true });
+/* ── SCROLL PROGRESS ── */
+const bar = document.getElementById('scrollBar');
+window.addEventListener('scroll', () => {
+  const p = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+  bar.style.width = (p * 100) + '%';
+}, { passive: true });
 
-  // Reveal on scroll
-  const reveals = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 80);
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: .12 });
-  reveals.forEach(el => io.observe(el));
+/* ── NAV GLASS ── */
+const nav = document.getElementById('mainNav');
+const onScroll = () => {
+  if (window.scrollY > 40) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+};
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
 
-  // FAQ
-  document.querySelectorAll('.faq-q').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.parentElement;
-      const wasOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!wasOpen) item.classList.add('open');
-    });
+/* ── PARTICLES ── */
+const layer = document.getElementById('particles');
+const EMOJIS = ['🎲','🎯','🏠','🌳','🥖','🏫','🗺️','⭐','🌸','🎁'];
+function spawnParticle() {
+  const el = document.createElement('div');
+  el.className = 'particle';
+  el.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+  el.style.left = Math.random() * 100 + 'vw';
+  const dur = 12 + Math.random() * 14;
+  const delay = Math.random() * -20;
+  el.style.animationDuration = dur + 's';
+  el.style.animationDelay = delay + 's';
+  el.style.fontSize = (.8 + Math.random() * .8) + 'rem';
+  layer.appendChild(el);
+  setTimeout(() => el.remove(), (dur + Math.abs(delay)) * 1000 + 1000);
+}
+for (let i = 0; i < 18; i++) spawnParticle();
+setInterval(spawnParticle, 2200);
+
+/* ── REVEAL ON SCROLL ── */
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 90);
+      io.unobserve(e.target);
+    }
   });
+}, { threshold: .1 });
+revealEls.forEach(el => io.observe(el));
 
-  // Modal
-  function openModal() { document.getElementById('modal').classList.add('open'); }
-  function closeModal() { document.getElementById('modal').classList.remove('open'); }
-  document.getElementById('modal').addEventListener('click', e => {
-    if (e.target === document.getElementById('modal')) closeModal();
+/* ── FAQ ── */
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
   });
+});
 
-  // Pricing 3D tilt
-  document.querySelectorAll('.pricing-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - .5;
-      const y = (e.clientY - r.top) / r.height - .5;
-      card.style.transform = `perspective(600px) rotateX(${-y * 6}deg) rotateY(${x * 6}deg) translateY(-6px)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
-    });
+/* ── MODAL ── */
+function openModal() { document.getElementById('modal').classList.add('open'); }
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+/* ── PRICING 3D TILT ── */
+document.querySelectorAll('.pricing-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5;
+    const y = (e.clientY - r.top)  / r.height - .5;
+    card.style.transform = `perspective(700px) rotateX(${-y * 6}deg) rotateY(${x * 6}deg) translateY(-6px)`;
   });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+});
 </script>
 </body>
 </html>

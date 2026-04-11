@@ -1372,7 +1372,7 @@ const divider = document.getElementById('ba-divider');
 const handle = document.getElementById('ba-handle');
 if (range) {
   const update = (v) => {
-    after.style.clipPath = `inset(0 0 0 ${100 - v}%)`;
+    after.style.clipPath = `inset(0 0 0 ${v}%)`;
     divider.style.left = v + '%';
     handle.style.left = v + '%';
   };
