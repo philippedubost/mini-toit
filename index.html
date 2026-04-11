@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <!-- Hero image preload — largest LCP element, load ASAP -->
-<link rel="preload" as="image" href="images/ComfyUI_temp_dcudn_00001_.webp" type="image/webp" fetchpriority="high">
+<link rel="preload" as="image" href="images/photo_maquette.webp" type="image/webp" fetchpriority="high">
 <style>
 /* ─── VARIABLES ─────────────────────────────────────────────── */
 :root {
@@ -565,9 +565,9 @@ nav.scrolled {
 }
 .emotion-bg {
   position: absolute; inset: 0;
-  background-image: url('images/ComfyUI_temp_rcsnb_00001_.webp');
-  background-size: cover; background-position: center;
-  opacity: .18; filter: grayscale(.5);
+  background-image: url('images/kid.webp');
+  background-size: cover; background-position: center top;
+  opacity: .22; filter: grayscale(.3);
 }
 .emotion-inner {
   position: relative; z-index: 2; padding: 120px 24px;
@@ -735,7 +735,7 @@ footer {
     max-height: 300px;
     width: 100%;
     object-fit: cover;
-    object-position: center 30%; /* frame the house + miniature nicely */
+    object-position: center center;
   }
   .hero-content { order: 0; }
   .hero-title { font-size: clamp(1.9rem, 7vw, 2.8rem); }
@@ -857,8 +857,8 @@ footer {
     <div class="hero-visual reveal-right">
       <div class="hero-img-wrap">
         <picture>
-          <source srcset="images/ComfyUI_temp_dcudn_00001_.webp" type="image/webp">
-          <img src="images/ComfyUI_temp_dcudn_00001_.png" alt="Photo maison réelle et sa maquette miniature" loading="eager" fetchpriority="high" decoding="sync">
+          <source srcset="images/photo_maquette.webp" type="image/webp">
+          <img src="images/photo_maquette.png" alt="Photo de maison encadrée et sa maquette miniature en bois" loading="eager" fetchpriority="high" decoding="sync">
         </picture>
       </div>
       <div class="hero-badge">
@@ -1061,8 +1061,8 @@ footer {
       <!-- S -->
       <div class="pricing-card reveal" style="transition-delay:.0s" data-tilt>
         <picture>
-          <source srcset="images/ComfyUI_temp_mggut_00001_.webp" type="image/webp">
-          <img class="pricing-pkg-img" src="images/ComfyUI_temp_mggut_00001_.png" alt="Packaging S MiniToit" loading="lazy" decoding="async">
+          <source srcset="images/SML.webp" type="image/webp">
+          <img class="pricing-pkg-img" src="images/SML.png" alt="Packaging S MiniToit" loading="lazy" decoding="async">
         </picture>
         <div class="pricing-size">S</div>
         <div class="pricing-name">Le Collector</div>
@@ -1080,8 +1080,8 @@ footer {
       <!-- M FEATURED -->
       <div class="pricing-card featured reveal" style="transition-delay:.12s" data-tilt>
         <picture>
-          <source srcset="images/ComfyUI_temp_mggut_00001_.webp" type="image/webp">
-          <img class="pricing-pkg-img" src="images/ComfyUI_temp_mggut_00001_.png" alt="Packaging M MiniToit" loading="lazy" decoding="async">
+          <source srcset="images/SML.webp" type="image/webp">
+          <img class="pricing-pkg-img" src="images/SML.png" alt="Packaging M MiniToit" loading="lazy" decoding="async">
         </picture>
         <div class="pricing-size">M</div>
         <div class="pricing-name">Le Favori</div>
@@ -1100,8 +1100,8 @@ footer {
       <!-- L -->
       <div class="pricing-card reveal" style="transition-delay:.24s" data-tilt>
         <picture>
-          <source srcset="images/ComfyUI_temp_mggut_00001_.webp" type="image/webp">
-          <img class="pricing-pkg-img" src="images/ComfyUI_temp_mggut_00001_.png" alt="Packaging L MiniToit" loading="lazy" decoding="async">
+          <source srcset="images/SML.webp" type="image/webp">
+          <img class="pricing-pkg-img" src="images/SML.png" alt="Packaging L MiniToit" loading="lazy" decoding="async">
         </picture>
         <div class="pricing-size">L</div>
         <div class="pricing-name">Le Showroom</div>
