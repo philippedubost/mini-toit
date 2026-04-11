@@ -795,6 +795,112 @@ footer a { color: var(--denim-light); text-decoration: none; }
   transition: background var(--t); margin-top: 4px;
 }
 .btn-modal:hover { background: var(--denim-deep); }
+
+  /* Mobile nav open state */
+  @media (max-width: 640px) {
+    .nav-links { display: none !important; }
+    .nav-links.nav-open {
+      display: flex !important;
+      flex-direction: column;
+      position: fixed; top: 64px; left: 0; right: 0;
+      background: rgba(15,15,15,.97); backdrop-filter: blur(14px);
+      padding: 20px 24px 28px; gap: 16px; z-index: 998;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-links.nav-open a {
+      font-size: .95rem; padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      color: rgba(255,255,255,.8) !important;
+    }
+    .nav-links.nav-open a.nav-cta {
+      background: var(--denim, #3B6494) !important;
+      color: #fff !important; border-radius: 100px;
+      text-align: center; border-bottom: none; padding: 12px;
+    }
+    nav { padding: 0 18px; }
+    .nav-mobile-btn { display: flex !important; }
+  }
+
+
+  /* ── PROCESS SECTION MOBILE FOLD ── */
+  @media (max-width: 640px) {
+    .process-grid, .how-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .process-section-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; background: none; border: none;
+      padding: 14px 0; cursor: pointer; margin-top: 16px;
+    }
+    .process-section-toggle-label {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700; font-size: .95rem;
+      color: inherit;
+    }
+    .process-section-toggle-icon {
+      font-size: 1.1rem; transition: transform .3s;
+    }
+    .process-section-toggle.open .process-section-toggle-icon {
+      transform: rotate(45deg);
+    }
+    .process-collapsible {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height .4s ease;
+    }
+    .process-collapsible.open {
+      max-height: 2000px;
+    }
+  }
+  @media (min-width: 641px) {
+    .process-section-toggle { display: none; }
+    .process-collapsible { max-height: none !important; overflow: visible !important; }
+  }
+
+  /* ── FAMILY SHELF MOBILE 2-COL ── */
+  @media (max-width: 640px) {
+    .family-cards {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 12px !important;
+      max-width: 100% !important;
+    }
+    .fcard {
+      width: 100% !important;
+      height: 160px !important;
+    }
+  }
+
+  /* ── MINIPOLY MOBILE CENTERING + LABEL SPACING ── */
+  @media (max-width: 768px) {
+    .hero-text-col {
+      align-items: center;
+      text-align: center;
+    }
+    .hero-sub { max-width: 100%; }
+    .hero-input-wrap { width: 100%; }
+    .hero-badges {
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .hero-badge {
+      padding: 8px 16px;
+      font-size: .78rem;
+    }
+    .display-tag { align-self: center; }
+    .hero-h1 { font-size: clamp(2rem, 8vw, 3rem); }
+    /* Board cases labels */
+    .case-card-label { font-size: .8rem; }
+    .case-card-sub { font-size: .7rem; line-height: 1.4; }
+    .cases-grid { gap: 10px; }
+    .case-card { padding: 16px 10px; }
+    /* Workflow before/after labels */
+    .workflow-section { padding: 64px 20px; }
+    /* Pricing labels */
+    .plan-name { font-size: 1.05rem; }
+  }
+
 </style>
 </head>
 <body>
@@ -1196,7 +1302,7 @@ footer a { color: var(--denim-light); text-decoration: none; }
 <div class="family-shelf">
   <div class="family-shelf-label">La famille Mini</div>
   <div class="family-cards">
-    <a href="mini-toit.html" class="fcard" style="background-image:url('images/mini-toit/photo_maquette.webp')">
+    <a href="mini-toit.html" class="fcard" style="background-image:url('images/mini-toit/hero.webp')">
       <div class="fcard-overlay"></div>
       <div class="fcard-body">
         <span class="fcard-emoji">🏠</span>
@@ -1411,6 +1517,63 @@ document.querySelectorAll('.pricing-card').forEach(card => {
 document.getElementById('addressInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') openModal();
 });
+
+/* ── MOBILE NAV TOGGLE ── */
+(function(){
+  var btn = document.querySelector('.nav-mobile-btn') || document.querySelector('[id="nav-toggle"]');
+  var links = document.querySelector('.nav-links');
+  if (!btn || !links) return;
+  // Ensure links hidden on mobile until opened
+  btn.addEventListener('click', function(){
+    var isOpen = links.classList.contains('nav-open');
+    if (isOpen) {
+      links.classList.remove('nav-open');
+      btn.setAttribute('data-open','');
+      btn.innerHTML = btn._origHTML || btn.innerHTML;
+    } else {
+      if (!btn._origHTML) btn._origHTML = btn.innerHTML;
+      links.classList.add('nav-open');
+      btn.innerHTML = '<span style="font-size:1.3rem;line-height:1">&#10005;</span>';
+    }
+  });
+  // Close on link click
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      links.classList.remove('nav-open');
+      if (btn._origHTML) btn.innerHTML = btn._origHTML;
+    });
+  });
+})();
+
+
+/* ── PROCESS SECTION MOBILE FOLD ── */
+(function(){
+  if (window.innerWidth > 640) return;
+  var processSection = document.querySelector('.process-section, #comment, section[id="comment"]');
+  // Find process grid
+  var grid = document.querySelector('.process-grid, .how-grid');
+  if (!grid) return;
+  var parent = grid.parentElement;
+  
+  // Wrap grid in collapsible div
+  var collapsible = document.createElement('div');
+  collapsible.className = 'process-collapsible';
+  parent.insertBefore(collapsible, grid);
+  collapsible.appendChild(grid);
+  
+  // Create toggle button
+  var btn = document.createElement('button');
+  btn.className = 'process-section-toggle';
+  btn.innerHTML = '<span class="process-section-toggle-label">Voir les étapes</span><span class="process-section-toggle-icon">+</span>';
+  parent.insertBefore(btn, collapsible);
+  
+  btn.addEventListener('click', function(){
+    var open = collapsible.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    btn.querySelector('.process-section-toggle-label').textContent = open ? 'Masquer les étapes' : 'Voir les étapes';
+  });
+})();
+
 </script>
 </body>
 </html>

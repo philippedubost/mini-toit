@@ -100,6 +100,8 @@ nav.scrolled {
 }
 @media (max-width: 900px) {
   .nav-pills { display: none; }
+  .nav-menu-btn { display: block; }
+  nav { padding: 0 20px; }
 }
 .nav-menu-btn {
   display: none; background: none; border: none;
@@ -170,7 +172,7 @@ nav.scrolled {
 .hero-cta-row {
   display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
   animation: fadeUp .7s .3s ease both;
-  margin-bottom: 72px;
+  margin-bottom: 48px;
 }
 .btn-hero-primary {
   background: #fff; color: var(--ink);
@@ -603,7 +605,7 @@ footer {
     <a href="miniarbre.html" class="nav-pill">🌳 MiniArbre</a>
     <a href="minipoly.html" class="nav-pill new-badge">🏘️ MiniPoly &nbsp;</a>
   </div>
-  <button class="nav-menu-btn" onclick="openMobileNav()" aria-label="Menu">☰</button>
+  <button class="nav-menu-btn" id="navMenuBtn" onclick="openMobileNav()" aria-label="Menu">☰</button>
 </nav>
 
 <!-- HERO -->
@@ -626,14 +628,6 @@ footer {
       <a href="#products" class="btn-hero-primary">Découvrir les 6 créations</a>
       <a href="#atelier" class="btn-hero-ghost">Notre atelier</a>
     </div>
-    <div class="hero-preview-strip">
-      <a href="mini-toit.html" class="preview-chip">🏠 MiniToit · Maquette bois</a>
-      <a href="miniroute.html" class="preview-chip">🗺️ MiniRoute · Tapis de quartier</a>
-      <a href="minitribu.html" class="preview-chip">👨‍👩‍👧‍👦 MiniTribu · Figurines laser</a>
-      <a href="minichemin.html" class="preview-chip">🎲 MiniChemin · Jeu de l'oie</a>
-      <a href="miniarbre.html" class="preview-chip">🌳 MiniArbre · Arbre généalogique</a>
-      <a href="minipoly.html" class="preview-chip">🏘️ MiniPoly · Jeu de quartier ✨ NEW</a>
-    </div>
   </div>
   <div class="scroll-cue">
     <span>Découvrir</span>
@@ -652,7 +646,7 @@ footer {
 
     <!-- MiniToit -->
     <a href="mini-toit.html" class="pcard">
-      <div class="pcard-img" style="background-image:url('images/mini-toit/photo_maquette.webp')"></div>
+      <div class="pcard-img" style="background-image:url('images/mini-toit/hero.webp')"></div>
       <div class="pcard-overlay"></div>
       <div class="pcard-accent" style="background:var(--c-toit)"></div>
       <div class="pcard-top">
@@ -815,7 +809,7 @@ footer {
         <img src="images/mini-toit/craft.webp" alt="Artisan découpant le bois bouleau à Nantes" loading="lazy" decoding="async">
       </div>
       <div class="craft-img">
-        <img src="images/mini-toit/photo_maquette.webp" alt="Maquette MiniToit finie" loading="lazy" decoding="async">
+        <img src="images/mini-toit/hero.webp" alt="Maquette MiniToit finie" loading="lazy" decoding="async">
       </div>
       <div class="craft-img">
         <img src="images/mini-toit/craft2.webp" alt="Atelier artisanal mini-toit nantes" loading="lazy" decoding="async">
@@ -926,8 +920,14 @@ const revIO = new IntersectionObserver((entries) => {
 revEls.forEach(el => revIO.observe(el));
 
 /* ── MOBILE NAV ── */
-function openMobileNav() { document.getElementById('mobileNav').classList.add('open'); }
-function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); }
+function openMobileNav() {
+  document.getElementById('mobileNav').classList.add('open');
+  document.getElementById('navMenuBtn').textContent = '✕';
+}
+function closeMobileNav() {
+  document.getElementById('mobileNav').classList.remove('open');
+  document.getElementById('navMenuBtn').textContent = '☰';
+}
 document.getElementById('mobileNav').addEventListener('click', e => {
   if (e.target === document.getElementById('mobileNav')) closeMobileNav();
 });
