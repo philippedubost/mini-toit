@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="images/mini-route/designexemple.webp" type="image/webp" fetchpriority="high">
+<link rel="preload" as="image" href="images/mini-route/hero.webp" type="image/webp" fetchpriority="high">
 <style>
 /* ─── VARIABLES ─────────────────────────────────────────────── */
 :root {
@@ -718,9 +718,20 @@ footer { background: var(--dark); color: rgba(255,255,255,.55); padding: 64px 24
     <div class="hero-visual reveal-right">
       <div class="hero-img-wrap">
         <picture>
-          <source srcset="images/mini-route/designexemple.webp" type="image/webp">
-          <img src="images/mini-route/designexemple.png" alt="Exemple de tapis MiniRoute — vue illustrée d'un quartier" loading="eager" fetchpriority="high" decoding="sync" style="width:100%;height:460px;object-fit:cover;object-position:center center">
+          <source srcset="images/mini-route/hero.webp" type="image/webp">
+          <img src="images/mini-route/hero.png" alt="Maman et enfant assis sur un tapis MiniRoute, regardant Google Maps ensemble" loading="eager" fetchpriority="high" decoding="sync" style="width:100%;height:460px;object-fit:cover;object-position:center 20%">
         </picture>
+      </div>
+      <div class="hero-badge">
+        <div class="badge-num">7J</div>
+        <div class="badge-label">livraison</div>
+      </div>
+      <div class="hero-badge2" style="animation:badgePop .6s cubic-bezier(.34,1.56,.64,1) 1.1s both">
+        <picture>
+          <source srcset="images/mini-route/packaging.webp" type="image/webp">
+          <img src="images/mini-route/packaging.png" alt="Packaging tube MiniRoute" loading="lazy" decoding="async" style="width:48px;height:36px;object-fit:cover;border-radius:6px">
+        </picture>
+        <span>Livré en <strong>tube kraft</strong></span>
       </div>
       <div class="hero-badge">
         <div class="badge-num">7J</div>
@@ -830,8 +841,8 @@ footer { background: var(--dark); color: rgba(255,255,255,.55); padding: 64px 24
     <div class="map-showcase reveal">
       <div class="map-showcase-visual">
         <picture>
-          <source srcset="images/mini-route/designexemple.webp" type="image/webp">
-          <img src="images/mini-route/designexemple.png" alt="Détail du design tapis MiniRoute — rues illustrées" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:40% center">
+          <source srcset="images/mini-route/tapissimple.webp" type="image/webp">
+          <img src="images/mini-route/tapissimple.png" alt="Vue complète d'un tapis MiniRoute avec voitures" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center center">
         </picture>
       </div>
       <div class="map-showcase-content">
@@ -860,7 +871,9 @@ footer { background: var(--dark); color: rgba(255,255,255,.55); padding: 64px 24
     <div class="pricing-grid">
       <!-- S -->
       <div class="pricing-card reveal" style="transition-delay:.0s" data-tilt>
-        <div class="pricing-preview"><div class="pricing-preview-inner map-s"><div class="map-grid-overlay"></div></div></div>
+        <div class="pricing-preview">
+          <picture><source srcset="images/mini-route/tapissimple.webp" type="image/webp"><img src="images/mini-route/tapissimple.png" alt="" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:20% 30%"></picture>
+        </div>
         <div class="pricing-size">S</div>
         <div class="pricing-name">Le Compact</div>
         <div class="pricing-dim">80 × 60 cm</div>
@@ -876,7 +889,9 @@ footer { background: var(--dark); color: rgba(255,255,255,.55); padding: 64px 24
       </div>
       <!-- M FEATURED -->
       <div class="pricing-card featured reveal" style="transition-delay:.12s" data-tilt>
-        <div class="pricing-preview"><div class="pricing-preview-inner map-m"><div class="map-grid-overlay"></div></div></div>
+        <div class="pricing-preview">
+          <picture><source srcset="images/mini-route/tapissimple.webp" type="image/webp"><img src="images/mini-route/tapissimple.png" alt="" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:50% 50%"></picture>
+        </div>
         <div class="pricing-size">M</div>
         <div class="pricing-name">Le Quartier</div>
         <div class="pricing-dim">120 × 80 cm</div>
@@ -893,7 +908,9 @@ footer { background: var(--dark); color: rgba(255,255,255,.55); padding: 64px 24
       </div>
       <!-- L -->
       <div class="pricing-card reveal" style="transition-delay:.24s" data-tilt>
-        <div class="pricing-preview"><div class="pricing-preview-inner map-l"><div class="map-grid-overlay"></div></div></div>
+        <div class="pricing-preview">
+          <picture><source srcset="images/mini-route/tapissimple.webp" type="image/webp"><img src="images/mini-route/tapissimple.png" alt="" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:80% 70%"></picture>
+        </div>
         <div class="pricing-size">L</div>
         <div class="pricing-name">La Ville</div>
         <div class="pricing-dim">160 × 120 cm</div>
@@ -912,9 +929,45 @@ footer { background: var(--dark); color: rgba(255,255,255,.55); padding: 64px 24
   </div>
 </section>
 
+<!-- ═══════════════ PACKAGING ═══════════════ -->
+<section style="background:var(--road-pale);padding:80px 24px">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center" class="pkg-grid">
+      <div class="reveal-right" style="border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-lg);animation:heroFloat 6s ease-in-out infinite">
+        <picture>
+          <source srcset="images/mini-route/packaging.webp" type="image/webp">
+          <img src="images/mini-route/packaging.png" alt="Tube kraft MiniRoute avec tapis partiellement déroulé" loading="lazy" decoding="async" style="width:100%;height:380px;object-fit:cover;object-position:center 40%">
+        </picture>
+      </div>
+      <div class="reveal-left">
+        <span class="display-tag" style="margin-bottom:20px">Livraison soignée</span>
+        <h2 style="color:var(--dark);margin-bottom:20px">Roulé, protégé,<br>prêt à dérouler.</h2>
+        <p style="margin-bottom:32px">Votre tapis arrive dans un tube kraft robuste, enroulé sur lui-même. Pas d'emballage plastique. Pas de carton géant. Juste un beau cylindre à ouvrir — et le quartier qui se déroule.</p>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--white);border-radius:var(--r-md)">
+            <div style="width:38px;height:38px;border-radius:var(--r-sm);background:var(--grass-pale);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem">📦</div>
+            <div><div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:.88rem;color:var(--dark)">Tube kraft recyclable</div><div style="font-size:.76rem;color:var(--muted)">Zéro plastique, 100% carton</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--white);border-radius:var(--r-md)">
+            <div style="width:38px;height:38px;border-radius:var(--r-sm);background:var(--water-pale);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem">🚚</div>
+            <div><div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:.88rem;color:var(--dark)">Livraison suivie en 7 jours</div><div style="font-size:.76rem;color:var(--muted)">France métropolitaine — Colissimo</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--white);border-radius:var(--r-md)">
+            <div style="width:38px;height:38px;border-radius:var(--r-sm);background:var(--marking-pale);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem">🎁</div>
+            <div><div style="font-family:'Quicksand',sans-serif;font-weight:700;font-size:.88rem;color:var(--dark)">Prêt à offrir</div><div style="font-size:.76rem;color:var(--muted)">Un ruban suffit — l'emballage fait déjà tout</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+@media(max-width:768px){ .pkg-grid{ grid-template-columns:1fr !important; } }
+</style>
+
 <!-- ═══════════════ EMOTION ═══════════════ -->
 <section id="emotion">
-  <div class="emotion-bg" style="background-image:url('images/mini-route/designexemple.webp');background-size:cover;background-position:center"></div>
+  <div class="emotion-bg" style="background-image:url('images/mini-route/kidplaying.webp');background-size:cover;background-position:center 30%"></div>
   <div class="emotion-inner">
     <span class="display-tag reveal">Pour les grands enfants aussi</span>
     <h2 class="reveal">"Le tapis qui leur apprend où ils habitent."</h2>
